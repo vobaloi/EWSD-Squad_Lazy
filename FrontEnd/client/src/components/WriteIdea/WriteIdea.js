@@ -3,6 +3,8 @@ import React from 'react'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { padding } from '@mui/system';
 
 const WriteIdea = () => {
     return (
@@ -15,11 +17,13 @@ const WriteIdea = () => {
                 <TextField
                     placeholder='Your department' sx={{ marginBottom: 1 }} />
                 <Typography>Contents:</Typography>
-                <TextField
-                    placeholder='abc'
-                    multiline
-                    rows={4}
-                    sx={{ marginBottom: 1 }} />
+                <TextareaAutosize
+                    minRows={4}
+                    aria-label="maximum height"
+                    placeholder="your contents here"
+                    fullWidth
+                    style={{ fontSize: 18, padding: 5 }}
+                />
                 <Typography>Upload file:</Typography>
                 <Button sx={{ border: 1, marginTop: 1, width: 200, marginRight: 'auto' }} >Choose file</Button>
                 <Grid display={'flex'} >

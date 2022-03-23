@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Avatar, Divider, Grid, InputAdornment, Paper, TextField, Button } from '@mui/material'
+import { Avatar, Divider, Grid, InputAdornment, Paper, TextField, Button, Box } from '@mui/material'
 import FaceIcon from '@mui/icons-material/Face';
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
@@ -9,6 +9,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 
 import { AuthContext } from "../../contexts/AuthContext"
+import { red } from '@mui/material/colors';
 
 function Login() {
   const { loginUser } = useContext(AuthContext)
@@ -49,8 +50,9 @@ function Login() {
 
   return (
     <>
+
       <form onSubmit={login}>
-        <Grid >
+        <Grid  >
           <Paper elevation={10} style={stylePaper} >
             <Grid align="center" >
               <Avatar ><FaceIcon /></Avatar>
@@ -76,7 +78,7 @@ function Login() {
                 onChange={onChangeLoginForm}
               />
             </Grid>
-            <Grid style={{ marginTop: '20px' }} display={'flex'}  >
+            <Grid sx={{ marginTop: '20px', position: 'relative' }} display={'flex'}   >
               <TextField
                 required
                 label='Password'
@@ -88,7 +90,6 @@ function Login() {
                   startAdornment: (
                     <InputAdornment position='start' >
                       <LockIcon style={{ color: "black" }} />
-
                     </InputAdornment>
                   )
                 }}
@@ -96,7 +97,7 @@ function Login() {
                 onChange={onChangeLoginForm}
               />
               <Grid >
-                <Button style={{ cursor: 'pointer', flexDirection: "row-reverse", marginTop: 5 }} ><VisibilityIcon style={{ color: 'black' }} fontSize='large' /></Button>
+                <Button style={{ cursor: 'pointer', marginTop: 5, position: 'absolute', right: 0 }} ><VisibilityIcon style={{ color: 'black' }} fontSize='large' /></Button>
               </Grid>
             </Grid>
 
@@ -118,6 +119,7 @@ function Login() {
           </Paper>
         </Grid >
       </form>
+
     </>
   )
 }
