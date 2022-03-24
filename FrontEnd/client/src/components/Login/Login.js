@@ -1,46 +1,71 @@
-import React, { useState, useContext } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { Avatar, Divider, Grid, InputAdornment, Paper, TextField, Button, Box } from '@mui/material'
-import FaceIcon from '@mui/icons-material/Face';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GoogleIcon from '@mui/icons-material/Google';
+import React, { useState, useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Avatar,
+  Divider,
+  Grid,
+  InputAdornment,
+  Paper,
+  TextField,
+  Button,
+  Box,
+  OutlinedInput,
+  IconButton,
+} from "@mui/material";
+import FaceIcon from "@mui/icons-material/Face";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import GoogleIcon from "@mui/icons-material/Google";
 
-import { AuthContext } from "../../contexts/AuthContext"
-import { red } from '@mui/material/colors';
+import { AuthContext } from "../../contexts/AuthContext";
+import { red } from "@mui/material/colors";
+
+import InputLabel from "@mui/material/InputLabel";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 function Login() {
-  const { loginUser } = useContext(AuthContext)
+  const { loginUser } = useContext(AuthContext);
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const [values, setValues] = useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
+    amount: "",
+    password: "",
+    weight: "",
+    weightRange: "",
     showPassword: false,
   });
 
   const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: "",
+  });
 
-  const { email, password } = loginForm
+  const { email, password } = loginForm;
 
-  const onChangeLoginForm = event => setLoginForm({ ...loginForm, [event.target.name]: event.target.value })
+  const onChangeLoginForm = (event) =>
+    setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
-  const login = async event => {
-    event.preventDefault()
+  const login = async (event) => {
+    event.preventDefault();
     try {
-      const LoginData = await loginUser(loginForm)
+      const LoginData = await loginUser(loginForm);
       console.log(LoginData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-  }
+  };
   const handleClickShowPassword = () => {
     setValues({
       ...values,
@@ -50,78 +75,93 @@ function Login() {
 
   return (
     <>
-
       <form onSubmit={login}>
-        <Grid  >
-          <Paper elevation={10} style={stylePaper} >
-            <Grid align="center" >
-              <Avatar ><FaceIcon /></Avatar>
+        <Grid>
+          <Paper elevation={10} style={stylePaper}>
+            <Grid align="center">
+              <Avatar>
+                <FaceIcon />
+              </Avatar>
               <h1>Log In</h1>
               <h4>Enter your email and password to Log-in</h4>
             </Grid>
-            <Divider orientation='horizontal' />
-            <Grid style={{ marginTop: '20px' }} >
+            <Divider orientation="horizontal" />
+            <Grid style={{ marginTop: "20px" }}>
               <TextField
                 required
-                label='Email'
-                name='email'
+                label="Email"
+                name="email"
                 fullWidth
-                placeholder='Your email...'
+                placeholder="Your email..."
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position='start' >
+                    <InputAdornment position="start">
                       <EmailIcon style={{ color: "black" }} />
                     </InputAdornment>
-                  )
+                  ),
                 }}
                 value={email}
                 onChange={onChangeLoginForm}
               />
             </Grid>
-            <Grid sx={{ marginTop: '20px', position: 'relative' }} display={'flex'}   >
-              <TextField
-                required
-                label='Password'
-                name='password'
-                type={'password'}
-                fullWidth
-                placeholder='Your Password...'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start' >
-                      <LockIcon style={{ color: "black" }} />
-                    </InputAdornment>
-                  )
-                }}
-                value={password}
-                onChange={onChangeLoginForm}
+            <FormControl
+              required
+              sx={{ mt: 2, width: "100%" }}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                type={values.showPassword ? "text" : "password"}
+                value={values.password}
+                onChange={handleChange("password")}
+                placeholder="Your password"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <LockIcon style={{ color: "black" }} />
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
               />
-              <Grid >
-                <Button style={{ cursor: 'pointer', marginTop: 5, position: 'absolute', right: 0 }} ><VisibilityIcon style={{ color: 'black' }} fontSize='large' /></Button>
-              </Grid>
-            </Grid>
-
-            <Grid display={'flex'}>
-              <Grid style={{ margin: '0px 50px 30px 50px' }} >
-                <h4 className='forgot'>Forgot your password?</h4>
-                <Link to={'/'} style={{ marginLeft: 25, marginTop: 0, alignItems: 'center', justifyContent: 'center' }} >Click here</Link>
-              </Grid>
-              <Grid >
-                <Button variant='contained' type='submit' style={{ width: 200, height: 50, cursor: "pointer", marginTop: 30, backgroundColor: 'green' }}>
+            </FormControl>
+            <Grid display={"flex"}
+            sx={{mt:5, mb:5, alignItems:'center'}}>
+              <Box style={{ width: "50%", textAlign:'center'}}>
+                <Link style={{textDecoration:'none', color:'blue'}} to={"/"}>Forgot Password</Link>
+              </Box>
+              <Box style={{ width: "50%", textAlign: "right" }}>
+                <Button
+                type="submit"
+                  variant="contained"
+                  color="success"
+                  style={{height:'50px', width: "100%"}}
+                >
                   Login
                 </Button>
-              </Grid>
-            </Grid>
-            <Grid lineHeight={'alignItems'} >
-              <Button variant='contained' fullWidth style={{ height: 40, backgroundColor: "blue" }} startIcon={<FacebookIcon />} >Login by FaceBook</Button>
-              <Button variant='contained' fullWidth style={{ height: 40, backgroundColor: "red" }} startIcon={<GoogleIcon />} >Login by Gmail</Button>
+              </Box>
             </Grid>
           </Paper>
-        </Grid >
+        </Grid>
       </form>
-
     </>
-  )
+  );
 }
-export default Login
-const stylePaper = { padding: 20, height: '70vh', width: 480, margin: '50px auto' }
+export default Login;
+const stylePaper = {
+  padding: 20,
+  width: 480,
+  margin: "50px auto",
+};
