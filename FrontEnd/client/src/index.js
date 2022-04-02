@@ -12,6 +12,7 @@ import SettingProfiles from './components/SettingProfiles/SettingProfiles'
 import Dashboard from './components/Dashboard/Dashboard';
 import AuthContextProvider from './contexts/AuthContext'
 import PageNotFound from './pages/404Page';
+import ProtectedRoutes from './components/route/ProtectedRoutes/ProtectedRoutes'
 
 
 ReactDOM.render(
@@ -21,13 +22,15 @@ ReactDOM.render(
         <Routes >
           <Route path='/' element={<App />} />
           <Route path='login' element={<Login />} />
-          <Route path='home' element={<HomePage />} >
-            <Route path='dashboard' element={<Dashboard />} />
-            <Route path='viewideas' element={<ViewIdeas />} />
-            <Route path='writeidea' element={<WriteIdea />} />
-            <Route path='managementusers' element={<ManagementUsers />} />
-            <Route path='managementideas' element={<ManagementIdeas />} />
-            <Route path='settingprofiles' element={<SettingProfiles />} />
+          <Route path='/' element={<ProtectedRoutes />} >
+            <Route path='home' element={<HomePage />} >
+              <Route path='dashboard' element={<Dashboard />} />
+              <Route path='viewideas' element={<ViewIdeas />} />
+              <Route path='writeidea' element={<WriteIdea />} />
+              <Route path='managementusers' element={<ManagementUsers />} />
+              <Route path='managementideas' element={<ManagementIdeas />} />
+              <Route path='settingprofiles' element={<SettingProfiles />} />
+            </Route>
           </Route>
           <Route path='*' element={<PageNotFound />} />
 
