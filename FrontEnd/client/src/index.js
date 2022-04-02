@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import App from './App';
 import Login from './components/Login/Login'
 import HomePage from './components/Home/Home'
@@ -24,6 +24,7 @@ ReactDOM.render(
           <Route path='login' element={<Login />} />
           <Route path='/' element={<ProtectedRoutes />} >
             <Route path='home' element={<HomePage />} >
+              <Route path='/home' element={<Navigate replace to='dashboard' />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='viewideas' element={<ViewIdeas />} />
               <Route path='writeidea' element={<WriteIdea />} />

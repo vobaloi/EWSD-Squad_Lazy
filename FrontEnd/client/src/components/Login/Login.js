@@ -15,21 +15,18 @@ import {
 import FaceIcon from "@mui/icons-material/Face";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
+import { InputLabel } from "@mui/material";
 
 import { AuthContext } from "../../contexts/AuthContext";
-import { red } from "@mui/material/colors";
-
-import InputLabel from "@mui/material/InputLabel";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
+
+
 function Login() {
   const { loginUser } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -40,7 +37,7 @@ function Login() {
   };
 
   const [values, setValues] = useState({
-    amount: "",
+    email: "",
     password: "",
     weight: "",
     weightRange: "",
@@ -61,7 +58,12 @@ function Login() {
     event.preventDefault();
     try {
       const LoginData = await loginUser(loginForm);
-      console.log(LoginData);
+      console.log(LoginData)
+      if (LoginData) {
+        return navigate('/home/dashboard')
+      } else {
+        return alert('Email or password incorrect!')
+      }
     } catch (error) {
       console.log(error);
     }
@@ -114,8 +116,8 @@ function Login() {
               </InputLabel>
               <OutlinedInput
                 type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
+                name="password"
+                onChange={onChangeLoginForm}
                 placeholder="Your password"
                 startAdornment={
                   <InputAdornment position="start">
@@ -135,19 +137,20 @@ function Login() {
                   </InputAdornment>
                 }
                 label="Password"
+                value={password}
               />
             </FormControl>
             <Grid display={"flex"}
-            sx={{mt:5, mb:5, alignItems:'center'}}>
-              <Box style={{ width: "50%", textAlign:'center'}}>
-                <Link style={{textDecoration:'none', color:'blue'}} to={"/"}>Forgot Password</Link>
+              sx={{ mt: 5, mb: 5, alignItems: 'center' }}>
+              <Box style={{ width: "50%", textAlign: 'center' }}>
+                <Link style={{ textDecoration: 'none', color: 'blue' }} to={"/"}>Forgot Password</Link>
               </Box>
               <Box style={{ width: "50%", textAlign: "right" }}>
                 <Button
-                type="submit"
+                  type="submit"
                   variant="contained"
                   color="success"
-                  style={{height:'50px', width: "100%"}}
+                  style={{ height: '50px', width: "100%" }}
                 >
                   Login
                 </Button>
