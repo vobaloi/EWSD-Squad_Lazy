@@ -28,9 +28,6 @@ function Login() {
   const { loginUser } = useContext(AuthContext);
   const navigate = useNavigate()
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
