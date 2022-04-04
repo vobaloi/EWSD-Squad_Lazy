@@ -110,20 +110,20 @@ export default function Navbar() {
           </Typography>
 
           <Box display={"flex"} sx={{ marginLeft: "auto" }}>
-            <Box sx={{ width: "50ch"}}>
+            <Box sx={{ width: "50ch" }}>
               <TextField
                 placeholder="Search..."
                 fullWidth
                 size="small"
-                sx={{backgroundColor:"white"}}
+                sx={{ backgroundColor: "white" }}
               />
             </Box>
 
-            <IconButton onClick={() => {}} sx={{ mr: 10, marginLeft: 5 }}>
+            <IconButton onClick={() => { }} sx={{ mr: 10, marginLeft: 5 }}>
               <AddCircleIcon sx={{ color: "white" }} />
             </IconButton>
 
-            <IconButton onClick={() => {}} sx={{ mr: 10, marginLeft: "auto" }}>
+            <IconButton onClick={() => { }} sx={{ mr: 10, marginLeft: "auto" }}>
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon sx={{ color: "white" }} />
               </Badge>
