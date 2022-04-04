@@ -1,13 +1,11 @@
 const { Validator } = require("node-input-validator");
 
-const user = require("./../models/user.model");
+const user = require("../models/accounts.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   const v = new Validator(req.body, {
-    first_name: "required|minLength:2|maxLength:100",
-    last_name: "required|minLength:2|maxLength:100",
-    email: "required|email|unique:User,email",
+    email: "required|email|unique:Account,email",
     password: "required",
   });
 
@@ -19,8 +17,6 @@ exports.register = async (req, res) => {
 
   try {
     const newUser = new user({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
       email: req.body.email,
       password: req.body.password,
     });
@@ -43,7 +39,7 @@ exports.login = async (req, res) => {
     email: "required|email",
     password: "required",
   });
-
+  // console.log("v từ body", v);
   const matched = await v.check();
 
   if (!matched) {

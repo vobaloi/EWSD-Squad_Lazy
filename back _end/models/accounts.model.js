@@ -2,12 +2,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const schema = new mongoose.Schema(
   {
-    first_name: { type: String, default: "" },
-    last_name: { type: String, default: "" },
     email: String,
     password: String,
-    profile_image: { type: String, default: "" },
-    profession: { type: String, default: "" },
+    // profile_image: { type: String, default: "" },
+    // profession: { type: String, default: "" },
   },
   {
     timestamps: true,
@@ -33,6 +31,6 @@ schema.pre("save", function (next) {
   });
 });
 
-const User = mongoose.model("User", schema);
+const Account = mongoose.model("Account", schema);
 
-module.exports = User;
+module.exports = Account;
