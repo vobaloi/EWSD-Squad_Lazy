@@ -48,6 +48,20 @@ export const mainNavbarItems = [
     {
         id: 6,
         icon: <SettingsIcon />,
+        label: 'Department',
+        route: 'departments',
+        roles: "admin"
+    },
+    {
+        id: 7,
+        icon: <SettingsIcon />,
+        label: 'Categories',
+        route: 'categories',
+        roles: "admin"
+    },
+    {
+        id: 8,
+        icon: <SettingsIcon />,
         label: 'Setting',
         route: 'settingprofiles',
         roles: "admin"
