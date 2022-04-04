@@ -2,6 +2,7 @@ const authRoute = require("./authentication.route");
 const profileRoute = require("./profile.route");
 const blogRoute = require("./blog.route");
 const blogCommentRoute = require("./blogComment.route");
+const departmentRoute = require("./department.router");
 module.exports = (app) => {
   app.get("/", function (req, res) {
     res.send({
@@ -13,4 +14,5 @@ module.exports = (app) => {
   app.use("/profile", profileRoute);
   app.use("/blogs", blogRoute);
   app.use("/blogs", blogCommentRoute);
+  app.use("/depart", departmentRoute);
 };

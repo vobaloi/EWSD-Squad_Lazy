@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
     email: "required|email",
     password: "required",
   });
-
+  // console.log("v từ body", v);
   const matched = await v.check();
 
   if (!matched) {
