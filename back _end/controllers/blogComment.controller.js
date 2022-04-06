@@ -23,7 +23,7 @@ exports.list = (req, res) => {
           let query = [
             {
               $lookup: {
-                from: "users",
+                from: "accounts",
                 localField: "user_id",
                 foreignField: "_id",
                 as: "user",
@@ -113,7 +113,7 @@ exports.create = async (req, res) => {
           });
 
           let commentData = await newCommentDocument.save();
-
+          console.log("nhanel", commentData);
           await Blog.updateOne(
             { _id: blog_id },
             {
@@ -124,7 +124,7 @@ exports.create = async (req, res) => {
           let query = [
             {
               $lookup: {
-                from: "users",
+                from: "accounts",
                 localField: "user_id",
                 foreignField: "_id",
                 as: "user",
@@ -134,6 +134,17 @@ exports.create = async (req, res) => {
             {
               $match: {
                 _id: mongoose.Types.ObjectId(commentData._id),
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                comment: 1,
+                blog_id: 1,
+                user_id: 1,
+                "user.email": 1,
+                "user.name": 1,
+                // "user.password": 1,
               },
             },
           ];

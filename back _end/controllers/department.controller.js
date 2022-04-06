@@ -20,6 +20,7 @@ exports.addDepart = async (req, res) => {
     const newDepart = new Department({
       name_department: req.body.name_department,
       description: req.body.description,
+      user_owner: req.user._id,
       owner: req.body.owner,
     });
     console.log("newDepart", newDepart);
@@ -28,12 +29,12 @@ exports.addDepart = async (req, res) => {
     //   {
     //     $lookup: {
     //       from: "accounts",
-    //       localField: "owner",
+    //       localField: "user_owner",
     //       foreignField: "_id",
-    //       as: "owner",
+    //       as: "user",
     //     },
     //   },
-    //   { $unwind: "$owner" },
+    //   { $unwind: "$user" },
 
     //   {
     //     $match: {
@@ -43,10 +44,11 @@ exports.addDepart = async (req, res) => {
     //   {
     //     $project: {
     //       _id: 1,
+    //       owner: 1,
     //       name_department: 1,
     //       description: 1,
-    //       "owner._id": 1,
-    //       "owner.email": 1,
+    //       "user._id": 1,
+    //       "user.email": 1,
     //     },
     //   },
     // ];
@@ -54,7 +56,7 @@ exports.addDepart = async (req, res) => {
 
     return res.status(200).send({
       message: "Added successfully",
-      //   data: Department.hydrate(departs[0]),
+      // data: Department.hydrate(departs[0]),
       data: userDepart,
     });
   } catch (error) {
@@ -77,19 +79,19 @@ exports.departments = async function (req, res) {
   }
 };
 
-exports.A_departments = async (req, res) => {
-  try {
-    const department = await Department.findById(req.params.id);
-    res.status(200).send({
-      department,
-    });
-  } catch (error) {
-    res.status(400).send({
-      message: error.message,
-      data: error,
-    });
-  }
-};
+// exports.A_departments = async (req, res) => {
+//   try {
+//     const department = await Department.findById(req.params.id);
+//     res.status(200).send({
+//       department,
+//     });
+//   } catch (error) {
+//     res.status(400).send({
+//       message: error.message,
+//       data: error,
+//     });
+//   }
+// };
 // update department
 
 exports.update = async (req, res) => {

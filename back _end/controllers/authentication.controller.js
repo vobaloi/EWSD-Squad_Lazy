@@ -10,6 +10,7 @@ exports.register = async (req, res) => {
   const v = new Validator(req.body, {
     email: "required|email|unique:Account,email",
     password: "required",
+    name: "required",
   });
 
   const matched = await v.check();
@@ -22,6 +23,7 @@ exports.register = async (req, res) => {
     const newUser = new user({
       email: req.body.email,
       password: req.body.password,
+      name: req.body.name,
     });
 
     let userData = await newUser.save();
@@ -89,31 +91,31 @@ exports.login = async (req, res) => {
 };
 
 // GET ALL USERS
-exports.getAllUser = (async (req, res, next) => {
-  const users = await Account.find();
-
-  res.status(200).json({
-      success: true,
-      users,
-  });
-});
-
-// DELETE USER 
-exports.deleteUser = (async(req,res) =>{
-
-  const user = await Account.findById(req.params.id);
-      
-  // IT WILL REMOVE CLOUDINARY LATER
-  if(!user) {
-    return res.status(400).send({
-      message: (`User does not exist with Id: ${req.params.id}`)
+exports.getAllUser = async (req, res, next) => {
+  try {
+    const users = await Account.find();
+    res.status(200).send({ users });
+  } catch (error) {
+    res.status(500).send({
+      error: error,
     });
+  }
+};
 
-  };
+// DELETE USER
+exports.deleteUser = async (req, res) => {
+  const user = await Account.findById(req.params.id);
+
+  // IT WILL REMOVE CLOUDINARY LATER
+  if (!user) {
+    return res.status(400).send({
+      message: `User does not exist with Id: ${req.params.id}`,
+    });
+  }
   await user.remove();
 
   res.status(200).json({
-    success:true,
-    message:"User Deleted successfully",
+    success: true,
+    message: "User Deleted successfully",
   });
-});
+};
