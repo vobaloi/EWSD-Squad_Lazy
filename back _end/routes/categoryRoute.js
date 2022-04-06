@@ -1,10 +1,13 @@
-
 const router = require("express").Router();
 const middleware = require("./../helpers/middleware");
 const categoryController = require("./../controllers/categoryController");
+
+const { authorizeRoles} = require("../middleware/role");
+
+
 router.post("/addCate", categoryController.addCate);
 
-router.get("/categories", categoryController.getAllCategory);
+router.get("/categories", authorizeRoles("admin"), categoryController.getAllCategory);
 
 router.get("/category/:id", categoryController.getCategoryDetails);
 
