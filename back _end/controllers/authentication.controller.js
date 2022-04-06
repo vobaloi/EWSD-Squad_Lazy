@@ -3,6 +3,9 @@ const { Validator } = require("node-input-validator");
 const user = require("../models/accounts.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Account = require("../models/accounts.model");
+
+// REGISTER
 exports.register = async (req, res) => {
   const v = new Validator(req.body, {
     email: "required|email|unique:Account,email",
@@ -34,6 +37,7 @@ exports.register = async (req, res) => {
   }
 };
 
+// LOGIN
 exports.login = async (req, res) => {
   const v = new Validator(req.body, {
     email: "required|email",
@@ -83,3 +87,33 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+// GET ALL USERS
+exports.getAllUser = (async (req, res, next) => {
+  const users = await Account.find();
+
+  res.status(200).json({
+      success: true,
+      users,
+  });
+});
+
+// DELETE USER 
+exports.deleteUser = (async(req,res) =>{
+
+  const user = await Account.findById(req.params.id);
+      
+  // IT WILL REMOVE CLOUDINARY LATER
+  if(!user) {
+    return res.status(400).send({
+      message: (`User does not exist with Id: ${req.params.id}`)
+    });
+
+  };
+  await user.remove();
+
+  res.status(200).json({
+    success:true,
+    message:"User Deleted successfully",
+  });
+});

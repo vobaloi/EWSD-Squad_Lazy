@@ -34,7 +34,7 @@ function Login() {
   };
 
   const [values, setValues] = useState({
-    email: "",
+    amount: "",
     password: "",
     weight: "",
     weightRange: "",
