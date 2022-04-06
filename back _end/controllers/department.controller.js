@@ -1,5 +1,6 @@
 const { Validator } = require("node-input-validator");
 const Department = require("../models/department.model");
+const Category = require("../models/category.model");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const { TokenExpiredError } = require("jsonwebtoken");
@@ -73,5 +74,40 @@ exports.departments = async function (req, res) {
       message: error.message,
       data: error,
     });
+  }
+};
+
+exports.A_departments = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    res.status(200).send({
+      department,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+      data: error,
+    });
+  }
+};
+// update department
+
+exports.update = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    await department.updateOne({ $set: req.body });
+    return res.status(200).json("Update successfully");
+  } catch (error) {
+    res.status(400).json("Error updating department");
+  }
+};
+// delete
+
+exports.delete = async (req, res) => {
+  try {
+    await Department.findByIdAndDelete(req.params.id);
+    res.status(200).json("Delete successfuly");
+  } catch (error) {
+    res.status(400).json("Error updating department");
   }
 };
