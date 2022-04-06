@@ -18,8 +18,14 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { Tooltip, Typography } from '@mui/material';
+import { CategoryContext } from '../../contexts/CategoryContext';
+
+import Moment from 'react-moment';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -82,26 +88,20 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, depart, start_day, end_day) {
-    return { name, depart, start_day, end_day };
-}
-const rows = [
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-    createData('Fee', "Computing", '20/12/2022', "20/01/2023"),
-].sort((a, b) => (a.name < b.name ? -1 : 1));
 
 export default function Categories() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const navigate = useNavigate()
 
+
+    const { cateSate: { categories, categoriesLoading }, getAllCategories } = useContext(CategoryContext)
+    React.useEffect(() => getAllCategories(), [])
+
+
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - categories.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -145,24 +145,30 @@ export default function Categories() {
                     </TableHead>
                     <TableBody>
                         {(rowsPerPage > 0
-                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : rows
-                        ).map((row) => (
-                            <TableRow key={row.name}>
+                            ? categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : categories
+                        ).map((data) => (
+                            <TableRow key={data._id}>
                                 <TableCell>
-                                    {row.name}
+                                    {data.name}
                                 </TableCell>
                                 <TableCell style={{ width: 160 }} align="right">
-                                    {row.depart}
+                                    {data.depart}
                                 </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.start_day}
+                                <TableCell style={{ width: 300 }} align="right">
+                                    <Moment format="YYYY/MM/DD" >{data.start_day}</Moment>
                                 </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.end_day}
-                                </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
+                                <TableCell style={{ width: 300 }} align="right">
 
+                                    <Moment format="YYYY/MM/DD" >{data.end_day}</Moment>
+                                </TableCell>
+                                <TableCell style={{ width: 160 }} align="right">
+                                    <IconButton >
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton>
+                                        <DeleteIcon />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -176,7 +182,7 @@ export default function Categories() {
                         <TableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                count={rows.length}
+                                count={categories.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 SelectProps={{
