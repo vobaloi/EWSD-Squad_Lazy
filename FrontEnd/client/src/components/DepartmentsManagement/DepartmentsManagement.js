@@ -22,11 +22,12 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../contexts/constants';
 
+
 import { DepartmentContext } from '../../contexts/DepartmentContext'
 import { useContext } from 'react';
 
 import { Tooltip, Typography } from '@mui/material';
-import axios from 'axios';
+
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -109,9 +110,10 @@ export default function Department() {
     const { departSate: { departments, departmentsLoading }, getAllDepartments } = useContext(DepartmentContext)
     React.useEffect(() => getAllDepartments(), [])
 
-    // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - departments.length) : 0;
+    // Avoid a layout jump when reaching the last page with empty rows.
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -147,29 +149,24 @@ export default function Department() {
                 <Table sx={{}} aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
-                            <TableCell >Name</TableCell>
-                            <TableCell align="right">Owner</TableCell>
-                            <TableCell align="right">Description</TableCell>
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell >Name Department</TableCell>
+                            <TableCell align="center">Owner</TableCell>
+                            <TableCell align="left">Description</TableCell>
+                            <TableCell align="center">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
+
                         {(rowsPerPage > 0
                             ? departments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : departments
                         ).map((data) => (
                             <TableRow key={data._id}>
-                                <TableCell>
-                                    {data.name_department}
-                                </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {data.owner}
-                                </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {data.description}
-                                </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    <IconButton>
+                                <TableCell >{data.name_department}</TableCell>
+                                <TableCell align="center">{data.owner}</TableCell>
+                                <TableCell align="left">{data.description}</TableCell>
+                                <TableCell align='center'>
+                                    <IconButton >
                                         <EditIcon />
                                     </IconButton>
                                     <IconButton>
@@ -179,10 +176,14 @@ export default function Department() {
                             </TableRow>
                         ))}
                         {emptyRows > 0 && (
+
                             <TableRow style={{ height: 53 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
+
                         )}
+
+
                     </TableBody>
                     <TableFooter>
                         <TableRow>
