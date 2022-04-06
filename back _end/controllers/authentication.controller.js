@@ -103,6 +103,7 @@ exports.deleteUser = (async(req,res) =>{
 
   const user = await Account.findById(req.params.id);
       
+  // IT WILL REMOVE CLOUDINARY LATER
   if(!user) {
     return res.status(400).send({
       message: (`User does not exist with Id: ${req.params.id}`)
