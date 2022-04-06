@@ -27,6 +27,8 @@ import CategoriesManagement from './components/CategoriesManagement/CategoriesMa
 
 import PageNotFound from './pages/404Page';
 import ProtectedRoutes from './components/route/ProtectedRoutes/ProtectedRoutes'
+import CategoryContextProvider from './contexts/CategoryContext';
+import AddNewCategory from './components/CategoriesManagement/AddNewCategory/AddNewCategory';
 
 
 
@@ -35,30 +37,33 @@ ReactDOM.render(
     <BrowserRouter >
       <AuthContextProvider >
         <DepartmentContextProvider>
-          <Routes >
-            <Route path='/' element={<App />} />
-            <Route path='login' element={<Login />} />
-            <Route path='/' element={<ProtectedRoutes />} >
-              <Route path='home' element={<HomePage />} >
-                <Route path='/home' element={<Navigate replace to='dashboard' />} />
-                <Route path='dashboard' element={<Dashboard />} />
-                <Route path='viewideas' element={<ViewIdeas />} />
-                <Route path='writeidea' element={<WriteIdea />} />
-                <Route path='managementusers' element={<ManagementUsers />} />
-                <Route path='managementideas' element={<ManagementIdeas />} />
-                <Route path='departments' element={<DepartmentsManagement />} />
-                <Route path='newdepartment' element={<AddNewDepart />} />
-                <Route path='categories' element={<CategoriesManagement />} />
+          <CategoryContextProvider>
+            <Routes >
+              <Route path='/' element={<App />} />
+              <Route path='login' element={<Login />} />
+              <Route path='/' element={<ProtectedRoutes />} >
+                <Route path='home' element={<HomePage />} >
+                  <Route path='/home' element={<Navigate replace to='dashboard' />} />
+                  <Route path='dashboard' element={<Dashboard />} />
+                  <Route path='viewideas' element={<ViewIdeas />} />
+                  <Route path='writeidea' element={<WriteIdea />} />
+                  <Route path='managementusers' element={<ManagementUsers />} />
+                  <Route path='managementideas' element={<ManagementIdeas />} />
+                  <Route path='departments' element={<DepartmentsManagement />} />
+                  <Route path='newdepartment' element={<AddNewDepart />} />
+                  <Route path='categories' element={<CategoriesManagement />} />
+                  <Route path='new-category' element={<AddNewCategory />} />
 
 
 
 
-                <Route path='settingprofiles' element={<SettingProfiles />} />
+                  <Route path='settingprofiles' element={<SettingProfiles />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path='*' element={<PageNotFound />} />
+              <Route path='*' element={<PageNotFound />} />
 
-          </Routes>
+            </Routes>
+          </CategoryContextProvider>
         </DepartmentContextProvider>
       </AuthContextProvider>
     </BrowserRouter>

@@ -27,7 +27,21 @@ const DepartmentContextProvider = ({ children }) => {
         }
     }
 
-    const DepartmentContextData = { departSate, getAllDepartments }
+    const addNewDepartment = async departForm => {
+        try {
+            const response = await axios.post(`${apiUrl}/depart/addDepart`, departForm)
+            console.log("data", response.data.data)
+            if (response.data.data)
+                dispatch({ type: 'ADD_NEW_DEPARTMENT', payload: response.data.data })
+            return response.data
+        } catch (error) {
+            if (error.response.data)
+                return error.response.data
+            else return { success: false, message: "Server Error" }
+        }
+    }
+
+    const DepartmentContextData = { departSate, getAllDepartments, addNewDepartment }
 
     return (
         <DepartmentContext.Provider value={DepartmentContextData} >
