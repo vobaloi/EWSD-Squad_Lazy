@@ -1,5 +1,5 @@
 const Account = require("../models/accounts.model");
-const error = require("../middleware/errorHandel");
+// const error = require("../middleware/errorHandel");
 exports.authorizeRoles = (...roles) => {
   return (req, next) => {
     // console.log("nhanle",req.user.role);
