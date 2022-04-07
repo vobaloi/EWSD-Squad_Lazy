@@ -4,6 +4,7 @@ const category = require("./../models/category.model");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const BlogLike = require("./../models/blogLike.model");
+const BlogDislike = require("../models/blogDislike.model");
 exports.list = async (req, res) => {
   try {
     // let query={};
@@ -199,7 +200,7 @@ exports.details = async (req, res) => {
           "creator.first_name": 1,
           "creator.last_name": 1,
           comments_count: { $size: { $ifNull: ["$blog_comments", []] } },
-          likes_count: { $size: { $ifNull: ["$blog_likes", []] } },
+          likes_count: { $size: { $ifNull: ["$blog_dislikess", []] } },
         },
       },
     ];
@@ -275,7 +276,7 @@ exports.create = async (req, res) => {
       image: image_file_name,
     });
     let blogData = await newBlog.save();
-
+    console.log(newBlog);
     let query = [
       {
         $lookup: {
@@ -316,6 +317,7 @@ exports.create = async (req, res) => {
           "creator.name": 1,
           comments_count: { $size: { $ifNull: ["$blog_comments", []] } },
           likes_count: { $size: { $ifNull: ["$blog_likes", []] } },
+          dislikes_count: { $size: { $ifNull: ["$blog_dislikes", []] } },
         },
       },
     ];
@@ -332,4 +334,175 @@ exports.create = async (req, res) => {
       data: err,
     });
   }
+};
+exports.toggle_like = async (req, res) => {
+  // cosole.log("hello nhanle");
+  let blog_id = req.params.blog_id;
+  if (!mongoose.Types.ObjectId.isValid(blog_id)) {
+    return res.status(400).send({
+      message: "Invalid blog id",
+      data: {},
+    });
+  }
+
+  Blog.findOne({ _id: blog_id })
+    .then(async (blog) => {
+      if (!blog) {
+        return res.status(400).send({
+          message: "No blog found",
+          data: {},
+        });
+      } else {
+        let current_user = req.user;
+
+        BlogLike.findOne({
+          blog_id: blog_id,
+          user_id: current_user._id,
+        })
+          .then(async (blog_like) => {
+            try {
+              if (!blog_like) {
+                let blogLikeDoc = new BlogLike({
+                  blog_id: blog_id,
+                  user_id: current_user._id,
+                });
+                let likeData = await blogLikeDoc.save();
+                await Blog.updateOne(
+                  {
+                    _id: blog_id,
+                  },
+                  {
+                    $push: { blog_likes: likeData._id },
+                  }
+                );
+                return res.status(200).send({
+                  message: "Like successfully added",
+                  data: {},
+                });
+              } else {
+                await BlogLike.deleteOne({
+                  _id: blog_like._id,
+                });
+
+                await Blog.updateOne(
+                  {
+                    _id: blog_like.blog_id,
+                  },
+                  {
+                    $pull: { blog_likes: blog_like._id },
+                  }
+                );
+
+                return res.status(200).send({
+                  message: "Like successfully removed",
+                  data: {},
+                });
+              }
+            } catch (err) {
+              return res.status(400).send({
+                message: err.message,
+                data: err,
+              });
+            }
+          })
+          .catch((err) => {
+            return res.status(400).send({
+              message: err.message,
+              data: err,
+            });
+          });
+      }
+    })
+    .catch((err) => {
+      return res.status(400).send({
+        message: err.message,
+        data: err,
+      });
+    });
+};
+
+exports.toggle_dislike = async (req, res) => {
+  // cosole.log("hello nhanle");
+  let blog_id = req.params.blog_id;
+  if (!mongoose.Types.ObjectId.isValid(blog_id)) {
+    return res.status(400).send({
+      message: "Invalid blog id",
+      data: {},
+    });
+  }
+
+  Blog.findOne({ _id: blog_id })
+    .then(async (blog) => {
+      if (!blog) {
+        return res.status(400).send({
+          message: "No blog found",
+          data: {},
+        });
+      } else {
+        let current_user = req.user;
+
+        BlogDislike.findOne({
+          blog_id: blog_id,
+          user_id: current_user._id,
+        })
+          .then(async (blog_dislike) => {
+            try {
+              if (!blog_dislike) {
+                let blogLikeDoc = new BlogDislike({
+                  blog_id: blog_id,
+                  user_id: current_user._id,
+                });
+                let likeData = await blogLikeDoc.save();
+                await Blog.updateOne(
+                  {
+                    _id: blog_id,
+                  },
+                  {
+                    $push: { blog_dislikes: likeData._id },
+                  }
+                );
+                return res.status(200).send({
+                  message: "DisLike successfully added",
+                  data: {},
+                });
+              } else {
+                await BlogDislike.deleteOne({
+                  _id: blog_dislike._id,
+                });
+
+                await Blog.updateOne(
+                  {
+                    _id: blog_dislikes.blog_id,
+                  },
+                  {
+                    $pull: { blog_dislikess: blog_dislikes._id },
+                  }
+                );
+
+                return res.status(200).send({
+                  message: "DisLike successfully removed",
+                  data: {},
+                });
+              }
+            } catch (err) {
+              return res.status(400).send({
+                message: err.message,
+                data: err,
+              });
+            }
+          })
+          .catch((err) => {
+            return res.status(400).send({
+              message: err.message,
+              data: err,
+            });
+          });
+      }
+    })
+    .catch((err) => {
+      return res.status(400).send({
+        message: err.message,
+        data: err,
+      });
+    });
 };
