@@ -3,7 +3,8 @@ const schema = new mongoose.Schema({
   name_department: String,
   description: String,
   owner: String,
-  user_owner: { type: mongoose.Schema.Types.ObjectId, ref: "Account" },
+  email: String,
+  // user_owner: { type: mongoose.Schema.Types.ObjectId, ref: "Account" },
   // category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 });
 

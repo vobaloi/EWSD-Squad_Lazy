@@ -11,6 +11,9 @@ const schema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "BlogComment" },
     ],
     blog_likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "BlogLike" }],
+    blog_dislikes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "BlogDislike" },
+    ],
   },
   {
     timestamps: true,
