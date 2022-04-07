@@ -4,7 +4,7 @@ const category = require("./../models/category.model");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const BlogLike = require("./../models/blogLike.model");
-const BlogDislike = require("../models/blogDislike.model");
+// const BlogDislike = require("../models/blogDislike.model");
 exports.list = async (req, res) => {
   try {
     // let query={};

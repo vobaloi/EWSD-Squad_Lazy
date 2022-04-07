@@ -53,57 +53,56 @@ exports.getAllCategory = async (req, res) => {
     categories,
   });
 };
-
-// GET CATEGORY DETAILS
-exports.getCategoryDetails = async (req, res, next) => {
-  const category = await Category.findById(req.params.id);
-
-  if (!category) {
+exports.deleteCategory = async (req, res) => {
+  try {
+    await department.updateMany(
+      { categorys: req.params.id },
+      { $pull: { categorys: req.params.id } }
+    );
+    await Category.findByIdAndDelete(req.params.id);
+    return res.status(201).send({
+      message: "Delete successfully",
+    });
+  } catch (err) {
     return res.status(400).send({
-      message: "Category not found",
+      message: err.message,
     });
   }
-
-  res.status(200).json({
-    success: true,
-    category,
-  });
 };
 
-// Edit Category
-exports.editCategory = async (req, res) => {
-  let category = await Category.findById(req.params.id);
-
-  if (!category) {
+exports.deleteCategory = async (req, res) => {
+  try {
+    await department.updateMany(
+      { categorys: req.params.id },
+      { $pull: { categorys: req.params.id } }
+    );
+    await Category.findByIdAndDelete(req.params.id);
+    return res.status(201).send({
+      message: "Delete successfully",
+    });
+  } catch (err) {
     return res.status(400).send({
-      message: "Category not found",
+      message: err.message,
     });
   }
-
-  category = await Category.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  });
-
-  res.status(200).json({
-    success: true,
-    category,
-  });
 };
-
-// Delete Category
-exports.deleteCategory = async (req, res, next) => {
-  const category = await Category.findById(req.params.id);
-
-  if (!category) {
-    return res.status(400).send({
-      message: "Category not found",
-    });
+exports.updateCategory = async (req, res) => {
+  const v = new Validator(req.body, {
+    name_category: "required",
+    name_depart: "required",
+    description: "required",
+  });
+  const matched = await v.check();
+  if (!matched) {
+    return res.status(422).send(v.errors);
   }
-  await category.remove(),
-    res.status(200).json({
-      success: true,
-      message: "Category delete successfully",
+  try {
+    const updateCate = await Category.findById(req.params.id);
+    await updateCate.updateOne({ $set: req.body });
+    return res.status(201).send({
+      message: "Update successfully",
     });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
