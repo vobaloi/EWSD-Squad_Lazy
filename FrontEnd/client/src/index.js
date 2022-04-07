@@ -31,6 +31,8 @@ import CategoryContextProvider from "./contexts/CategoryContext";
 import AddNewCategory from "./components/CategoriesManagement/AddNewCategory/AddNewCategory";
 import UpdateCategory from "./components/CategoriesManagement/UpdateCategory";
 import UpdateUser from "./components/ManagementUsers/UpdateUser";
+
+import PieChart from"./components/Dashboard/PieChart";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -47,6 +49,7 @@ ReactDOM.render(
                     element={<Navigate replace to="dashboard" />}
                   />
                   <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="piechart" element={<PieChart />} />
                   <Route path="viewideas" element={<ViewIdeas />} />
                   <Route path="writeidea" element={<WriteIdea />} />
                   <Route path="managementusers" element={<ManagementUsers />} />
