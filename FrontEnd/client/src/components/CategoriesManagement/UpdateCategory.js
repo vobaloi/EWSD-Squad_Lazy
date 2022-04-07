@@ -57,7 +57,7 @@ const UpdateCategory = () => {
             sx={{ width: "70%", margin: "50px auto", textAlign: "center" }}
           >
             <Box>
-              <h1>Update department</h1>
+              <h1>Update category</h1>
             </Box>
             <form onSubmit={onSubmit}>
               <Box display={"block"}>
