@@ -15,7 +15,6 @@ const AddNewDepart = () => {
         name_department: '',
         description: '',
         owner: '',
-        user_owner: Users._id
 
     })
 
@@ -23,7 +22,7 @@ const AddNewDepart = () => {
 
     //React.useEffect(() => addNewDepartment(), [])
 
-    const { name_department, description, owner, user_owner } = departForm
+    const { name_department, description, owner } = departForm
 
     const onChangeDepartmentForm = (event) =>
         setDepartmentForm({ ...departForm, [event.target.name]: event.target.value })
