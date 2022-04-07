@@ -2,7 +2,7 @@ const router = require("express").Router();
 const middleware = require("./../helpers/middleware");
 const categoryController = require("./../controllers/categoryController");
 
-const { authorizeRoles} = require("../middleware/role");
+const { authorizeRoles} = require("../middleware/auth");
 
 
 router.post("/addCate", categoryController.addCate);

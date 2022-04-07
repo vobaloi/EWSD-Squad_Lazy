@@ -5,6 +5,12 @@ const schema = new mongoose.Schema(
     name_category: String,
     start_day: Date,
     end_day: Date,
+    user: {
+      type: mongoose.Schema.ObjectId, 
+      ref: "Account",
+      require: true
+    }
+    
   },
   {
     timestamps: true,
@@ -15,3 +21,10 @@ const schema = new mongoose.Schema(
 
 const Category = mongoose.model("Category", schema);
 module.exports = Category;
+
+
+// user: {
+//   type: mongoose.Schema.ObjectId,
+//   ref: "User",
+//   required: true,
+// },

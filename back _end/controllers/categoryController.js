@@ -1,14 +1,35 @@
 const Category = require("../models/category.model");
 
-// create new category
-exports.addCate = (async (req,res) => {
-    const category = await Category.create(req.body);
+exports.addCate = (async (req,res,next) => {
 
-    res.status(201).json({
-        success: true,
-        category,
+    const { 
+        name_category,
+        start_day,
+        end_day,
+        } = req.body;
+    
+        const category = await Category.create({
+        name_category,
+        start_day,
+        end_day,
+        user: req.user._id,
+        });
+    
+        res.status(201).json({
+            success: true,
+            category,
+        });
     });
-});
+    
+// create new category
+// exports.addCate = (async (req,res) => {
+//     const category = await Category.create(req.body);
+
+//     res.status(201).json({
+//         success: true,
+//         category,
+//     });
+// });
 
 // GET ALL CATEGORY
 exports.getAllCategory =( async (req,res) => {
