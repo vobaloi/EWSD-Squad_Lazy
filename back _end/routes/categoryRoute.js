@@ -4,8 +4,8 @@ const categoryController = require("./../controllers/categoryController");
 
 const { authorizeRoles } = require("../middleware/role");
 
-router.post("/:depart_id/addCate", categoryController.addCate);
-router.get("/categories", categoryController.getAllCategory);
+router.post("/addCate", categoryController.addCate);
+router.get("/getAllCategory", categoryController.getAllCategory);
 
 router.get("/category/:id", categoryController.getCategoryDetails);
 
