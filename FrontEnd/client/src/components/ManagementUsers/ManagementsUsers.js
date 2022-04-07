@@ -165,7 +165,6 @@ export default function CustomPaginationActionsTable() {
                                     {row.status == 0 ? <Typography sx={{ color: 'red' }}>Not Active</Typography> : <Typography color={{ color: 'green' }}>Active</Typography>}
                                 </TableCell>
                                 <TableCell style={{ width: 160 }} align="right">
-
                                 </TableCell>
                             </TableRow>
                         ))}
