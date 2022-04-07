@@ -15,15 +15,15 @@ const AddNewDepart = () => {
         name_department: '',
         description: '',
         owner: '',
+        user_owner: Users._id
 
     })
 
     const navigate = useNavigate()
 
-
     //React.useEffect(() => addNewDepartment(), [])
 
-    const { name_department, description, owner } = departForm
+    const { name_department, description, owner, user_owner } = departForm
 
     const onChangeDepartmentForm = (event) =>
         setDepartmentForm({ ...departForm, [event.target.name]: event.target.value })
@@ -100,8 +100,10 @@ const AddNewDepart = () => {
                                         name='owner'
                                     >
                                         <option>None</option>
+
                                         {Users.map((data) => (
                                             <option key={data._id}>{data.email}</option>
+
                                         ))}
 
                                     </NativeSelect>

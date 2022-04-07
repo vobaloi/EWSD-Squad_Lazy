@@ -30,10 +30,10 @@ const DepartmentContextProvider = ({ children }) => {
     const addNewDepartment = async departForm => {
         try {
             const response = await axios.post(`${apiUrl}/depart/addDepart`, departForm)
-            console.log("data", response.data.data)
-            if (response.data.data)
-                dispatch({ type: 'ADD_NEW_DEPARTMENT', payload: response.data.data })
-            return response.data
+            console.log("data", response)
+            if (response)
+                dispatch({ type: 'ADD_NEW_DEPARTMENT', payload: response })
+            return response
         } catch (error) {
             if (error.response.data)
                 return error.response.data
