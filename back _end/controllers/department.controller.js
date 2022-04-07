@@ -20,7 +20,7 @@ exports.addDepart = async (req, res) => {
     const newDepart = new Department({
       name_department: req.body.name_department,
       description: req.body.description,
-      user_owner: req.user._id,
+      // user_owner: req.user._id,
       owner: req.body.owner,
     });
     console.log("newDepart", newDepart);

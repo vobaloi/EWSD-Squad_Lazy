@@ -15,7 +15,7 @@ const AddNewDepart = () => {
         name_department: '',
         description: '',
         owner: '',
-        user_owner: Users._id
+        user_owner: ""
 
     })
 
