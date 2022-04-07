@@ -10,7 +10,7 @@ exports.addCate = async (req, res) => {
   const v = new Validator(req.body, {
     name_category:
       "required|minLength:5|maxLength:100|unique:Department,name_department",
-    description: "required",
+    // description: "required",
     name_depart: "required",
   });
   const matched = await v.check();

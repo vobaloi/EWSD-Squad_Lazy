@@ -13,8 +13,8 @@ const AddNewCategory = () => {
     const { addNewCate } = useContext(CategoryContext)
     React.useEffect(() => getAllDepartments(), [])
     const [CateForm, setCateForm] = useState({
-        name: '',
-        depart: '',
+        name_category: '',
+        name_depart: '',
         start_day: '',
         end_day: ''
     })
@@ -24,7 +24,7 @@ const AddNewCategory = () => {
 
     //React.useEffect(() => addNewDepartment(), [])
 
-    const { name, depart, start_day, end_day } = CateForm
+    const { name_category, name_depart, start_day, end_day } = CateForm
 
     const onChangeCateForm = (event) =>
         setCateForm({ ...CateForm, [event.target.name]: event.target.value })
@@ -36,7 +36,7 @@ const AddNewCategory = () => {
 
             const NewCateData = await addNewCate(CateForm);
             console.log("newdata", NewCateData)
-            if (NewCateData.message) {
+            if (NewCateData.data) {
                 return navigate('/home/categories')
             }
         } catch (error) {
@@ -59,9 +59,9 @@ const AddNewCategory = () => {
                             </Box>
                             <Box sx={{ width: '80%' }} >
                                 <TextField
-                                    value={name}
+                                    value={name_category}
                                     onChange={onChangeCateForm}
-                                    name='name'
+                                    name='name_category'
                                     fullWidth
                                     placeholder='name category' />
                             </Box>
@@ -74,8 +74,8 @@ const AddNewCategory = () => {
                                 <FormControl fullWidth>
                                     <NativeSelect
                                         onChange={onChangeCateForm}
-                                        value={depart}
-                                        name='depart'
+                                        value={name_depart}
+                                        name='name_depart'
                                     >
                                         <option>None</option>
                                         {departments.map((data) => (
