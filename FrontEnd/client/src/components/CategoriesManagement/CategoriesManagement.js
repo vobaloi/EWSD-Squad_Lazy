@@ -150,10 +150,10 @@ export default function Categories() {
                         ).map((data) => (
                             <TableRow key={data._id}>
                                 <TableCell>
-                                    {data.name}
+                                    {data.name_category}
                                 </TableCell>
                                 <TableCell style={{ width: 160 }} align="right">
-                                    {data.depart}
+                                    {data.name_depart}
                                 </TableCell>
                                 <TableCell style={{ width: 300 }} align="right">
                                     <Moment format="YYYY/MM/DD" >{data.start_day}</Moment>

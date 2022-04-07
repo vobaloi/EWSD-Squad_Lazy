@@ -36,15 +36,16 @@ const AddNewDepart = () => {
             }
             const NewDepartmentData = await addNewDepartment(departForm);
             console.log("newdata", NewDepartmentData)
-            if (NewDepartmentData.message) {
+            if (NewDepartmentData.data) {
                 return navigate('/home/departments')
-            } else if (NewDepartmentData.name_department.message) {
-                return alert("Error Name department")
-            } else if (NewDepartmentData.description.message) {
-                return alert("Description Required")
-            } else if (NewDepartmentData.owner.message) {
-                return alert("Owner Required")
             }
+            // } else if (NewDepartmentData.name_department.message) {
+            //     return alert("Error Name department")
+            // } else if (NewDepartmentData.description.message) {
+            //     return alert("Description Required")
+            // } else if (NewDepartmentData.owner.message) {
+            //     return alert("Owner Required")
+            // }
         } catch (error) {
             console.log(error);
         }

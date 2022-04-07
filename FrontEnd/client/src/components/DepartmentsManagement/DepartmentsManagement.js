@@ -163,7 +163,7 @@ export default function Department() {
                         ).map((data) => (
                             <TableRow key={data._id}>
                                 <TableCell >{data.name_department}</TableCell>
-                                <TableCell align="center">{data.owner}</TableCell>
+                                <TableCell align="center">{data.email}</TableCell>
                                 <TableCell align="left">{data.description}</TableCell>
                                 <TableCell align='center'>
                                     <IconButton >

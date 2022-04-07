@@ -15,7 +15,7 @@ const CategoryContextProvider = ({ children }) => {
     //Get all departments
     const getAllCategories = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/cate/categories`)
+            const response = await axios.get(`${apiUrl}/cate/getAllCategory`)
             console.log('data', response.data.categories)
             if (response.data.categories) {
                 console.log("data", response.data.categories)
