@@ -9,6 +9,7 @@ import WriteIdea from "./components/WriteIdea/WriteIdea";
 import ManagementUsers from "./components/ManagementUsers/ManagementsUsers";
 import ManagementIdeas from "./components/ManagementIdeas/ManagementIdeas";
 import SettingProfiles from "./components/SettingProfiles/SettingProfiles";
+import UpdateProfile from "./components/SettingProfiles/UpdateProfile";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 //authContext
@@ -61,6 +62,7 @@ ReactDOM.render(
                   <Route path="update-category" element={<UpdateCategory />} />
 
                   <Route path="settingprofiles" element={<SettingProfiles />} />
+                  <Route path="updateprofile" element={<UpdateProfile />} />
                 </Route>
               </Route>
               <Route path="*" element={<PageNotFound />} />

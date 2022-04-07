@@ -172,23 +172,12 @@ const ManagementIdeas = () => {
   return (
     <Box>
       <Box>
-        <Box>
-          <Typography variant="h4">Ideas Management</Typography>
-        </Box>
-        <Box display={"flex"} alignItems="center">
-          <IconButton>
-            <Tooltip title="Add new user">
-              <AddCircleIcon fontSize="large" />
-            </Tooltip>
-          </IconButton>
-          <Typography>Add Ideas</Typography>
-        </Box>
+        <Typography variant="h4">Ideas Management</Typography>
       </Box>
-
       <TableContainer component={Paper} elevation={12}>
         <Table sx={{}} aria-label="custom pagination table">
           <TableHead>
-            <TableRow sx={{backgroundColor : "#33393994"}}>
+            <TableRow sx={{ backgroundColor: "#33393994" }}>
               <TableCell>Department</TableCell>
               <TableCell align="left">Category</TableCell>
               <TableCell align="center">Description</TableCell>
