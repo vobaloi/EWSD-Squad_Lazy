@@ -21,7 +21,6 @@ exports.addDepart = async (req, res) => {
     let checkEmail = await user.findOne({ email: req.body.owner });
     if (checkEmail) {
       // console.log(checkEmail._id);
-
       const newDepart = new Department({
         name_department: req.body.name_department,
         description: req.body.description,
