@@ -28,6 +28,7 @@ import PageNotFound from "./pages/404Page";
 import ProtectedRoutes from "./components/route/ProtectedRoutes/ProtectedRoutes";
 import CategoryContextProvider from "./contexts/CategoryContext";
 import AddNewCategory from "./components/CategoriesManagement/AddNewCategory/AddNewCategory";
+import UpdateCategory from "./components/CategoriesManagement/UpdateCategory";
 import UpdateUser from "./components/ManagementUsers/UpdateUser";
 ReactDOM.render(
   <React.StrictMode>
@@ -57,6 +58,7 @@ ReactDOM.render(
                   <Route path="newdepartment" element={<AddNewDepart />} />
                   <Route path="categories" element={<CategoriesManagement />} />
                   <Route path="new-category" element={<AddNewCategory />} />
+                  <Route path="update-category" element={<UpdateCategory />} />
 
                   <Route path="settingprofiles" element={<SettingProfiles />} />
                 </Route>
