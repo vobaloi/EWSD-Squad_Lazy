@@ -1,4 +1,5 @@
 const Category = require("../models/category.model");
+const department = require("../models/department.model");
 const mongoose = require("mongoose");
 const depart = require("../models/department.model");
 const { Validator } = require("node-input-validator");
@@ -6,95 +7,41 @@ const { Validator } = require("node-input-validator");
 // create new category
 // truyền xuống tên depart, tìm trong depart có trong db có thì em lưu
 exports.addCate = async (req, res) => {
-  let depart_id = req.params.depart_id;
-  if (!mongoose.Types.ObjectId.isValid(depart_id)) {
-    return res.status(400).send({
-      message: "Invalid blog id",
-      data: {},
-    });
+  const v = new Validator(req.body, {
+    name_category:
+      "required|minLength:5|maxLength:100|unique:Department,name_department",
+    description: "required",
+    name_depart: "required",
+  });
+  const matched = await v.check();
+  if (!matched) {
+    return res.status(422).send(v.errors);
   }
-  depart
-    .findOne({ _id: depart_id })
-    .then(async (blog) => {
-      if (!blog) {
-        return res.status(400).send({
-          message: "No blog found",
-          data: {},
-        });
-      } else {
-        try {
-          const v = new Validator(req.body, {
-            comment: "required",
-          });
-          const matched = await v.check();
-          if (!matched) {
-            return res.status(422).send(v.errors);
-          }
-
-          let newCommentDocument = new BlogComment({
-            comment: req.body.comment,
-            blog_id: blog_id,
-            user_id: req.user._id,
-          });
-
-          let commentData = await newCommentDocument.save();
-          console.log("nhanel", commentData);
-          await depart.updateOne(
-            { _id: depart_id },
-            {
-              $push: { blog_comments: commentData._id },
-            }
-          );
-
-          let query = [
-            {
-              $lookup: {
-                from: "accounts",
-                localField: "user_id",
-                foreignField: "_id",
-                as: "user",
-              },
-            },
-            { $unwind: "$user" },
-            {
-              $match: {
-                _id: mongoose.Types.ObjectId(commentData._id),
-              },
-            },
-            {
-              $project: {
-                _id: 1,
-                comment: 1,
-                blog_id: 1,
-                user_id: 1,
-                "user.email": 1,
-                "user.name": 1,
-                // "user.password": 1,
-              },
-            },
-          ];
-
-          let comments = await BlogComment.aggregate(query);
-
-          return res.status(200).send({
-            message: "Comment successfully added",
-            data: comments[0],
-          });
-        } catch (err) {
-          return res.status(400).send({
-            message: err.message,
-            data: err,
-          });
-        }
-      }
-    })
-    .catch((err) => {
-      return res.status(400).send({
-        message: err.message,
-        data: err,
-      });
+  try {
+    const checkDepart = await department.findOne({
+      name_department: req.body.name_depart,
     });
+    console.log(checkDepart._id);
+
+    if (checkDepart) {
+      const newCate = new Category({
+        name_category: req.body.name_category,
+        description: req.body.description,
+        name_depart: req.body.name_depart,
+        departs: checkDepart._id,
+      });
+      const saveCate = await newCate.save();
+      if (checkDepart._id) {
+        const cate = department.findById(checkDepart._id);
+        await cate.updateOne({ $push: { categorys: saveCate._id } });
+      }
+      res.status(200).json(saveCate);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
+
 // GET ALL CATEGORY
 exports.getAllCategory = async (req, res) => {
   const categories = await Category.find();
