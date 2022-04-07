@@ -17,7 +17,7 @@ const WriteIdea = () => {
         image: null,
         file: null,
         category: '',
-        anonymous: '',
+        anonymous: false,
 
         error: false
 
