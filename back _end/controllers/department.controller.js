@@ -89,20 +89,21 @@ exports.departments = async function (req, res) {
   }
 };
 
-// exports.A_departments = async (req, res) => {
-//   try {
-//     const department = await Department.findById(req.params.id);
-//     res.status(200).send({
-//       department,
-//     });
-//   } catch (error) {
-//     res.status(400).send({
-//       message: error.message,
-//       data: error,
-//     });
-//   }
-// };
-// update department
+exports.A_departments = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    res.status(200).send({
+      department,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+      data: error,
+    });
+  }
+};
+
+//update department
 
 exports.update = async (req, res) => {
   try {
