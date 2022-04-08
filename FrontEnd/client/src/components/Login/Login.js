@@ -56,11 +56,11 @@ function Login() {
     try {
       const LoginData = await loginUser(loginForm);
       console.log(LoginData)
-      if (LoginData) {
-        return navigate('/home/dashboard')
-      } else {
-        return alert('Email or password incorrect!')
-      }
+      // if (LoginData) {
+      //   return navigate('/home/dashboard')
+      // } else {
+      //   return alert('Email or password incorrect!')
+      // }
     } catch (error) {
       console.log(error);
     }

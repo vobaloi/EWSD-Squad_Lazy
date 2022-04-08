@@ -4,7 +4,7 @@ const departController = require("./../controllers/department.controller");
 
 const { authorizeRoles } = require("../middleware/auth");
 
-router.post("/addDepart",  departController.addDepart);
+router.post("/addDepart", departController.addDepart);
 router.get("/departments", departController.departments);
 router.get("/:id", departController.A_departments);
 router.put("/:id", departController.update);

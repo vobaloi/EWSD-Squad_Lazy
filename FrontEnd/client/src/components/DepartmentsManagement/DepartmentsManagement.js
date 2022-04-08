@@ -26,7 +26,9 @@ import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from '../../contexts/constants';
 import { DepartmentContext } from '../../contexts/DepartmentContext'
 import { useContext } from 'react';
 
-import { Tooltip, Typography } from '@mui/material';
+import { Tooltip, Typography, Alert } from '@mui/material';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 function TablePaginationActions(props) {
@@ -107,8 +109,9 @@ export default function Department() {
     const navigate = useNavigate()
 
     //context
-    const { departSate: { departments, departmentsLoading }, getAllDepartments } = useContext(DepartmentContext)
+    const { departSate: { departments, departmentsLoading }, getAllDepartments, deleteDepart } = useContext(DepartmentContext)
     React.useEffect(() => getAllDepartments(), [])
+
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - departments.length) : 0;
@@ -124,7 +127,29 @@ export default function Department() {
         setPage(0);
     };
 
+    const removeDepartment = async (_id, nameDepart) => {
+        // confirmAlert({
+        //     title: 'Confirm to Delete',
+        //     message: 'Are you sure to delete ' + nameDepart,
+        //     buttons: [
+        //         {
+        //             label: 'Yes',
+        //             onClick: () => deleteDepart(_id)
 
+        //         },
+        //         {
+        //             label: 'No',
+        //             onClick: () => getAllDepartments()
+        //         },
+        //     ]
+        // });
+
+        if (removeDepartment) {
+            alert("Detele deparment " + nameDepart)
+            const message = await deleteDepart(_id)
+            getAllDepartments()
+        }
+    }
     return (
         <Box>
             <Box >
@@ -134,7 +159,7 @@ export default function Department() {
                     </Typography>
                 </Box>
                 <Box display={'flex'} alignItems='center'>
-                    <IconButton onClick={() => navigate('/home/newdepartment')}>
+                    <IconButton onClick={() => navigate('/home/new-department')}>
                         <Tooltip title="Add new department">
                             <AddCircleIcon fontSize='large' />
                         </Tooltip>
@@ -166,11 +191,11 @@ export default function Department() {
                                 <TableCell align="center">{data.email}</TableCell>
                                 <TableCell align="left">{data.description}</TableCell>
                                 <TableCell align='center'>
-                                    <IconButton >
-                                        <EditIcon />
+                                    <IconButton onClick={() => navigate(`/home/update-department/${data._id}`)} >
+                                        <EditIcon fontSize='large' />
                                     </IconButton>
-                                    <IconButton>
-                                        <DeleteIcon />
+                                    <IconButton onClick={() => removeDepartment(data._id, data.name_department)}>
+                                        <DeleteIcon fontSize='large' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

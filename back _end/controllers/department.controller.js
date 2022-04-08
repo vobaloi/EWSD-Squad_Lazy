@@ -11,7 +11,7 @@ exports.addDepart = async (req, res) => {
     name_department:
       "required|minLength:5|maxLength:100|unique:Department,name_department",
     description: "required",
-    owner: "required",
+    email: "required",
 
 
   });
@@ -20,7 +20,7 @@ exports.addDepart = async (req, res) => {
     return res.status(422).send(v.errors);
   }
   try {
-    let checkEmail = await user.findOne({ email: req.body.owner });
+    let checkEmail = await user.findOne({ email: req.body.email });
     if (checkEmail) {
       console.log(checkEmail._id);
 
@@ -28,8 +28,9 @@ exports.addDepart = async (req, res) => {
         name_department: req.body.name_department,
         description: req.body.description,
         owner: checkEmail._id,
+        email: req.body.email
 
-    
+
       });
 
       console.log("newDepart", newDepart);
@@ -80,7 +81,7 @@ exports.addDepart = async (req, res) => {
 
 exports.departments = async function (req, res) {
   try {
-    
+
     const allDepartments = await Department.find();
     res.status(200).send({ allDepartments });
   } catch (error) {

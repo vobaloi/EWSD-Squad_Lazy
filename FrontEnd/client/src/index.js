@@ -31,8 +31,11 @@ import CategoryContextProvider from "./contexts/CategoryContext";
 import AddNewCategory from "./components/CategoriesManagement/AddNewCategory/AddNewCategory";
 import UpdateCategory from "./components/CategoriesManagement/UpdateCategory";
 import UpdateUser from "./components/ManagementUsers/UpdateUser";
+import UpdateDepart from "./components/DepartmentsManagement/UpdateDepartment/UpdateDepartment";
 
-import PieChart from"./components/Dashboard/PieChart";
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -49,23 +52,26 @@ ReactDOM.render(
                     element={<Navigate replace to="dashboard" />}
                   />
                   <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="piechart" element={<PieChart />} />
-                  <Route path="viewideas" element={<ViewIdeas />} />
-                  <Route path="writeidea" element={<WriteIdea />} />
-                  <Route path="managementusers" element={<ManagementUsers />} />
-                  <Route path="updateuser" element={<UpdateUser />} />
-                  <Route path="managementideas" element={<ManagementIdeas />} />
-                  <Route
-                    path="departments"
-                    element={<DepartmentsManagement />}
-                  />
-                  <Route path="newdepartment" element={<AddNewDepart />} />
+                  <Route path="view-ideas" element={<ViewIdeas />} />
+                  <Route path="write-idea" element={<WriteIdea />} />
+                  <Route path="management-users" element={<ManagementUsers />} />
+                  <Route path="update-user" element={<UpdateUser />} />
+                  <Route path="management-ideas" element={<ManagementIdeas />} />
+
+
+                  {/* department */}
+                  <Route path="departments" element={<DepartmentsManagement />} />
+                  <Route path="new-department" element={<AddNewDepart />} />
+                  <Route path="update-department/:_id" element={<UpdateDepart />} />
+
+
+                  {/* categories */}
                   <Route path="categories" element={<CategoriesManagement />} />
                   <Route path="new-category" element={<AddNewCategory />} />
                   <Route path="update-category" element={<UpdateCategory />} />
 
-                  <Route path="settingprofiles" element={<SettingProfiles />} />
-                  <Route path="updateprofile" element={<UpdateProfile />} />
+                  <Route path="setting-profiles" element={<SettingProfiles />} />
+                  <Route path="update-profile" element={<UpdateProfile />} />
                 </Route>
               </Route>
               <Route path="*" element={<PageNotFound />} />
@@ -75,5 +81,5 @@ ReactDOM.render(
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
