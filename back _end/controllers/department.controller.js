@@ -12,6 +12,8 @@ exports.addDepart = async (req, res) => {
       "required|minLength:5|maxLength:100|unique:Department,name_department",
     description: "required",
     owner: "required",
+
+
   });
   const matched = await v.check();
   if (!matched) {
@@ -26,7 +28,8 @@ exports.addDepart = async (req, res) => {
         name_department: req.body.name_department,
         description: req.body.description,
         owner: checkEmail._id,
-        email: req.body.owner,
+
+    
       });
 
       console.log("newDepart", newDepart);
@@ -77,6 +80,7 @@ exports.addDepart = async (req, res) => {
 
 exports.departments = async function (req, res) {
   try {
+    
     const allDepartments = await Department.find();
     res.status(200).send({ allDepartments });
   } catch (error) {
@@ -87,20 +91,21 @@ exports.departments = async function (req, res) {
   }
 };
 
-// exports.A_departments = async (req, res) => {
-//   try {
-//     const department = await Department.findById(req.params.id);
-//     res.status(200).send({
-//       department,
-//     });
-//   } catch (error) {
-//     res.status(400).send({
-//       message: error.message,
-//       data: error,
-//     });
-//   }
-// };
-// update department
+exports.A_departments = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    res.status(200).send({
+      department,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+      data: error,
+    });
+  }
+};
+
+//update department
 
 exports.update = async (req, res) => {
   try {
