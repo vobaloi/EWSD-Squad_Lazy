@@ -1,6 +1,5 @@
 export const departmentReducer = (state, action) => {
     const { type, payload } = action
-
     switch (type) {
         case 'DEPARTMENT_LOAD_SUCCESS':
             return {
@@ -18,6 +17,17 @@ export const departmentReducer = (state, action) => {
             return {
                 ...state,
                 departments: [...state.departments, payload],
+                departmentsLoading: false
+            }
+        case 'GET_AN_DEPARTMENT':
+            return {
+                ...state,
+                one_department: payload,
+            }
+        case 'GET_DEPARTMENT_FAIL':
+            return {
+                ...state,
+                one_department: null,
                 departmentsLoading: false
             }
         default:

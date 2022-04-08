@@ -35,7 +35,7 @@ const AddNewCategory = () => {
         try {
 
             const NewCateData = await addNewCate(CateForm);
-            console.log("newdata", NewCateData)
+            console.log("new-data", NewCateData)
             if (NewCateData.data) {
                 return navigate('/home/categories')
             }

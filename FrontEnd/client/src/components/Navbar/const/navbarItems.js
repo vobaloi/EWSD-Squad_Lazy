@@ -4,7 +4,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import PersonIcon from '@mui/icons-material/Person';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import SettingsIcon from '@mui/icons-material/Settings';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+// import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 
 export const mainNavbarItems = [
@@ -19,14 +19,14 @@ export const mainNavbarItems = [
         id: 2,
         icon: <DesktopWindowsIcon />,
         label: 'View Ideas',
-        route: 'viewideas',
+        route: 'view-ideas',
         roles: "admin"
     },
     {
         id: 3,
         icon: <CreateIcon />,
         label: 'Write Ideas',
-        route: 'writeidea',
+        route: 'write-idea',
         roles: "admin"
     },
 
@@ -35,14 +35,14 @@ export const mainNavbarItems = [
         icon: <PersonIcon />,
         //arrow: <KeyboardArrowLeftIcon />,
         label: 'Management Users',
-        route: 'managementusers',
+        route: 'management-users',
         roles: "admin"
     },
     {
         id: 5,
         icon: <TipsAndUpdatesIcon />,
         label: 'Management Ideas',
-        route: 'managementideas',
+        route: 'management-ideas',
         roles: "admin"
     },
     {
@@ -63,7 +63,7 @@ export const mainNavbarItems = [
         id: 8,
         icon: <SettingsIcon />,
         label: 'Setting',
-        route: 'settingprofiles',
+        route: 'setting-profiles',
         roles: "admin"
     },
 

@@ -1,9 +1,8 @@
-import { Paper, Box, Grid } from "@mui/material";
+import { Paper, Box } from "@mui/material";
 import React from "react";
 
+
 import Typography from "@mui/material/Typography";
-import PieChart from "./PieChart";
-import BarChart from "./BarChart";
 
 const Dashboard = () => {
   return (
@@ -70,15 +69,13 @@ const Dashboard = () => {
         </Box>
         <Box>
           <Typography variant="h4">Chart</Typography>
-          <Box display={"flex"} sx={{justifyContent: "space-between"}}>
-              <Box sx={{width: "45%"}}>
+          <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
+            <Box sx={{ width: "45%" }}>
+            </Box>
+            <Box sx={{ width: "45%" }}>
 
-            <BarChart />
-              </Box>
-              <Box sx={{width: "45%"}}>
 
-            <PieChart />
-              </Box>
+            </Box>
           </Box>
         </Box>
       </Paper>
