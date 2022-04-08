@@ -120,9 +120,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
+    await Category.updateMany({ departs: req.params.id }, { departs: null });
     await Department.findByIdAndDelete(req.params.id);
-    res.status(200).json("Delete successfuly");
-  } catch (error) {
-    res.status(400).json("Error updating department");
+    res.status(200).json("Deleted successfully!");
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
