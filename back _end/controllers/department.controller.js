@@ -12,6 +12,8 @@ exports.addDepart = async (req, res) => {
       "required|minLength:5|maxLength:100|unique:Department,name_department",
     description: "required",
     owner: "required",
+
+
   });
   const matched = await v.check();
   if (!matched) {
@@ -25,6 +27,8 @@ exports.addDepart = async (req, res) => {
         name_department: req.body.name_department,
         description: req.body.description,
         owner: checkEmail._id,
+
+    
       });
       console.log("newDepart", newDepart);
       let userDepart = await newDepart.save();
@@ -74,6 +78,7 @@ exports.addDepart = async (req, res) => {
 
 exports.departments = async function (req, res) {
   try {
+    
     const allDepartments = await Department.find();
     res.status(200).send({ allDepartments });
   } catch (error) {
