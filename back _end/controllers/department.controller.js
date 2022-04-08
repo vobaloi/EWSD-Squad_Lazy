@@ -2,6 +2,7 @@ const { Validator } = require("node-input-validator");
 const Department = require("../models/department.model");
 const Category = require("../models/category.model");
 const mongoose = require("mongoose");
+const user = require("../models/accounts.model");
 const fs = require("fs");
 const { TokenExpiredError } = require("jsonwebtoken");
 
@@ -17,48 +18,52 @@ exports.addDepart = async (req, res) => {
     return res.status(422).send(v.errors);
   }
   try {
-    const newDepart = new Department({
-      name_department: req.body.name_department,
-      description: req.body.description,
-      user_owner: req.user._id,
-      owner: req.body.owner,
-    });
-    console.log("newDepart", newDepart);
-    let userDepart = await newDepart.save();
-    // let query = [
-    //   {
-    //     $lookup: {
-    //       from: "accounts",
-    //       localField: "user_owner",
-    //       foreignField: "_id",
-    //       as: "user",
-    //     },
-    //   },
-    //   { $unwind: "$user" },
+    let checkEmail = await user.findOne({ email: req.body.owner });
+    if (checkEmail) {
+      // console.log(checkEmail._id);
+      const newDepart = new Department({
+        name_department: req.body.name_department,
+        description: req.body.description,
+        owner: checkEmail._id,
+      });
+      console.log("newDepart", newDepart);
+      let userDepart = await newDepart.save();
 
-    //   {
-    //     $match: {
-    //       _id: mongoose.Types.ObjectId(userDepart._id),
-    //     },
-    //   },
-    //   {
-    //     $project: {
-    //       _id: 1,
-    //       owner: 1,
-    //       name_department: 1,
-    //       description: 1,
-    //       "user._id": 1,
-    //       "user.email": 1,
-    //     },
-    //   },
-    // ];
-    // let departs = await Department.aggregate(query);
+      // let query = [
+      //   {
+      //     $lookup: {
+      //       from: "accounts",
+      //       localField: "user_owner",
+      //       foreignField: "_id",
+      //       as: "user",
+      //     },
+      //   },
+      //   { $unwind: "$user" },
 
-    return res.status(200).send({
-      message: "Added successfully",
-      // data: Department.hydrate(departs[0]),
-      data: userDepart,
-    });
+      //   {
+      //     $match: {
+      //       _id: mongoose.Types.ObjectId(userDepart._id),
+      //     },
+      //   },
+      //   {
+      //     $project: {
+      //       _id: 1,
+      //       owner: 1,
+      //       name_department: 1,
+      //       description: 1,
+      //       "user._id": 1,
+      //       "user.email": 1,
+      //     },
+      //   },
+      // ];
+      // let departs = await Department.aggregate(query);
+
+      return res.status(200).send({
+        message: "Added successfully",
+        // data: Department.hydrate(departs[0]),
+        data: userDepart,
+      });
+    }
   } catch (error) {
     return res.status(400).send({
       message: error.message,

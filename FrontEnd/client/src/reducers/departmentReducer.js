@@ -14,6 +14,12 @@ export const departmentReducer = (state, action) => {
                 departments: [],
                 departmentsLoading: false
             }
+        case 'ADD_NEW_DEPARTMENT':
+            return {
+                ...state,
+                departments: [...state.departments, payload],
+                departmentsLoading: false
+            }
         default:
             return state
     }

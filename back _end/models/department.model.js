@@ -4,6 +4,7 @@ const schema = new mongoose.Schema({
   description: String,
   owner: String,
   user_owner: { type: mongoose.Schema.Types.ObjectId, ref: "Account" },
+  // category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 });
 
 const Department = mongoose.model("Department", schema);
