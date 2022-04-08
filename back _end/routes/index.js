@@ -11,10 +11,12 @@ module.exports = (app) => {
     });
   });
 
+  
   app.use("/auth", authRoute);
   app.use("/profile", profileRoute);
   app.use("/blogs", blogRoute);
   // app.use("/blogs", blogCommentRoute);
   app.use("/depart", departmentRoute);
   app.use("/cate", categoryRoute);
+  
 };

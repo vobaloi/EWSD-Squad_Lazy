@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const depart = require("../models/department.model");
 const { Validator } = require("node-input-validator");
 
+
 // create new category
 // truyền xuống tên depart, tìm trong depart có trong db có thì em lưu
 exports.addCate = async (req, res) => {

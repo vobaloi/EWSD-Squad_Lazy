@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
+const ErrorMiddelWare = require("./middleware/error")
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
 // parse application/json
@@ -38,7 +40,11 @@ require("./routes/index")(app);
 
 const http = require("http");
 const server = http.Server(app);
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log(`server is running on port localhost:${port}`);
 });
+
+
+// Error Message
+app.use(ErrorMiddelWare);
