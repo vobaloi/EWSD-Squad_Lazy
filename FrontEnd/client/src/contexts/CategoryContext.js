@@ -40,7 +40,17 @@ const CategoryContextProvider = ({ children }) => {
         }
     }
 
-    const CategoryContextData = { cateSate, getAllCategories, addNewCate }
+
+    const updateCate = async (_id, cateForm) => {
+        const response = await axios.put(`${apiUrl}/cate/updateCategory/` + _id, cateForm)
+        console.log("update", response)
+    }
+
+    const deleteCate = async (_id) => {
+        const response = await axios.delete(`${apiUrl}/cate/deleteCategory/` + _id)
+        console.log("delete res", response)
+    }
+    const CategoryContextData = { cateSate, getAllCategories, addNewCate, updateCate, deleteCate }
 
     return (
         <CategoryContext.Provider value={CategoryContextData} >

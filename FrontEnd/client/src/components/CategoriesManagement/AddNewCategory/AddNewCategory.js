@@ -3,6 +3,7 @@ import { Box, Button, TextareaAutosize, TextField, Typography, FormControl, Nati
 import { DepartmentContext } from '../../../contexts/DepartmentContext';
 import { useNavigate } from 'react-router-dom';
 
+
 import Paper from '@mui/material/Paper';
 import { CategoryContext } from '../../../contexts/CategoryContext';
 
@@ -18,6 +19,8 @@ const AddNewCategory = () => {
         start_day: '',
         end_day: ''
     })
+
+    const [date, changeDate] = useState(new Date());
 
     const navigate = useNavigate()
 

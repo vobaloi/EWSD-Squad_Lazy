@@ -27,7 +27,6 @@ exports.addCate = async (req, res) => {
     if (checkDepart) {
       const newCate = new Category({
         name_category: req.body.name_category,
-        description: req.body.description,
         name_depart: req.body.name_depart,
         departs: checkDepart._id,
       });
@@ -91,7 +90,7 @@ exports.updateCategory = async (req, res) => {
   const v = new Validator(req.body, {
     name_category: "required",
     name_depart: "required",
-    description: "required",
+    // description: "required",
   });
   const matched = await v.check();
   if (!matched) {

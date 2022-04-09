@@ -95,7 +95,7 @@ export default function Categories() {
     const navigate = useNavigate()
 
 
-    const { cateSate: { categories, categoriesLoading }, getAllCategories } = useContext(CategoryContext)
+    const { cateSate: { categories }, getAllCategories, deleteCate } = useContext(CategoryContext)
     React.useEffect(() => getAllCategories(), [])
 
 
@@ -111,7 +111,14 @@ export default function Categories() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
+    const removeCategory = async (_id, cateName) => {
+        if (removeCategory) {
+            alert("You delete " + cateName)
+            const message = await deleteCate(_id)
+            getAllCategories()
+        }
+        console.log("remove")
+    }
     return (
         <Box>
             <Box >
@@ -163,11 +170,11 @@ export default function Categories() {
                                     <Moment format="YYYY/MM/DD" >{data.end_day}</Moment>
                                 </TableCell>
                                 <TableCell style={{ width: 160 }} align="right">
-                                    <IconButton >
-                                        <EditIcon />
+                                    <IconButton onClick={() => navigate(`/home/update-category/${data._id}`)} >
+                                        <EditIcon fontSize='large' />
                                     </IconButton>
-                                    <IconButton>
-                                        <DeleteIcon />
+                                    <IconButton onClick={() => removeCategory(data._id, data.name_category)}>
+                                        <DeleteIcon fontSize='large' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
