@@ -248,11 +248,10 @@ exports.create = async (req, res) => {
     req.body["image"] = req.files.image;
   }
   const v = new Validator(req.body, {
-    title: "required|minLength:5|maxLength:100",
-    short_description: "required",
-    description: "required",
     category: "required",
     image: "required|mime:jpg.jpeg,png",
+    department: "required",
+    content: "required",
   });
   const matched = await v.check();
   if (!matched) {
@@ -268,15 +267,16 @@ exports.create = async (req, res) => {
     }
 
     const newBlog = new Blog({
-      title: req.body.title,
-      short_description: req.body.short_description,
-      description: req.body.description,
       category: req.body.category,
       created_by: req.user._id,
       image: image_file_name,
+      department: req.body.department,
+      content: req.body.content,
     });
+    const created = req.user._id;
+    console.log("created", created);
     let blogData = await newBlog.save();
-    console.log(newBlog);
+    console.log("hafkjashdfasdfasdf", blogData._id);
     let query = [
       {
         $lookup: {
@@ -287,15 +287,15 @@ exports.create = async (req, res) => {
         },
       },
       { $unwind: "$creator" },
-      {
-        $lookup: {
-          from: "categories",
-          localField: "category",
-          foreignField: "_id",
-          as: "category_details",
-        },
-      },
-      { $unwind: "$category_details" },
+      // {
+      //   $lookup: {
+      //     from: "categories",
+      //     localField: "category",
+      //     foreignField: "_id",
+      //     as: "category_details",
+      //   },
+      // },
+      // { $unwind: "$category_details" },
       {
         $match: {
           _id: mongoose.Types.ObjectId(blogData._id),
@@ -305,9 +305,9 @@ exports.create = async (req, res) => {
         $project: {
           _id: 1,
           createdAt: 1,
-          title: 1,
-          short_description: 1,
-          description: 1,
+          content: 1,
+          department: 1,
+          category: 1,
           image: 1,
           "category_details.name": 1,
           "category_details.slug": 1,
@@ -323,6 +323,7 @@ exports.create = async (req, res) => {
     ];
 
     let blogs = await Blog.aggregate(query);
+    console.log("infor", blogs);
 
     return res.status(201).send({
       message: "Blog created successfully",
