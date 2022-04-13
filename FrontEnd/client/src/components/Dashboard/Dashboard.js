@@ -1,10 +1,27 @@
 import { Paper, Box } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { DepartmentContext } from '../../contexts/DepartmentContext'
+import { CategoryContext } from "../../contexts/CategoryContext";
 
 
 import Typography from "@mui/material/Typography";
 
 const Dashboard = () => {
+
+  const { authState: { Users }, getAllUser } = useContext(AuthContext)
+  React.useEffect(() => getAllUser(), [])
+
+
+  const { departSate: { departments }, getAllDepartments } = useContext(DepartmentContext)
+
+  React.useEffect(() => getAllDepartments(), [])
+
+  const { cateSate: { categories }, getAllCategories } = useContext(CategoryContext)
+  React.useEffect(() => getAllCategories(), [])
+
+
+
   return (
     <>
       <Paper elevation={8} sx={{ height: "auto", marginTop: 1 }}>
@@ -31,7 +48,7 @@ const Dashboard = () => {
               <Typography variant="h4" mb={2}>
                 Users
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4">{Users.length}</Typography>
             </Box>
             <Box
               sx={{
@@ -42,9 +59,9 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h4" mb={2}>
-                Users
+                Departments
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4"> {departments.length}</Typography>
             </Box>
             <Box
               sx={{
@@ -55,13 +72,13 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h4" mb={2}>
-                Users
+                Categories
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4">{categories.length}</Typography>
             </Box>
             <Box sx={{ width: "25%", textAlign: "center", color: "white" }}>
               <Typography variant="h4" mb={2}>
-                Users
+                Blogs
               </Typography>
               <Typography variant="h4">100</Typography>
             </Box>

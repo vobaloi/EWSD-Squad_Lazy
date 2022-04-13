@@ -10,7 +10,7 @@ export const DepartmentContext = createContext()
 const DepartmentContextProvider = ({ children }) => {
     const [departSate, dispatch] = useReducer(departmentReducer, {
         departments: [],
-        one_department: [],
+        one_department: '',
         departmentsLoading: false,
 
     })
@@ -58,7 +58,7 @@ const DepartmentContextProvider = ({ children }) => {
     const getDepartmentById = async (_id) => {
         try {
             const response = await axios.get(`${apiUrl}/depart/` + _id)
-            console.log('data depart', response.data.department)
+            console.log('data depart get: ', response.data.department)
             if (response.data.department) {
                 dispatch({ type: 'GET_AN_DEPARTMENT', payload: response.data.department })
             }

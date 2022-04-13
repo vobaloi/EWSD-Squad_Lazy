@@ -12,9 +12,10 @@ const UpdateDepart = () => {
     const { departSate: { one_department, departmentsLoading }, update_Department, getDepartmentById } = useContext(DepartmentContext)
     React.useEffect(() => { console.log("select", one_department) }, [])
     React.useEffect(() => getDepartmentById(params._id), [])
+
     React.useEffect(() => getAllUser(), [])
     const [departForm, setDepartmentForm] = useState({
-        name_department: '',
+        name_department: one_department.name_department,
         description: '',
         email: '',
     })
@@ -55,8 +56,8 @@ const UpdateDepart = () => {
                 <Typography>Update department</Typography>
             </Box>
             <Box component={Paper} elevation={12} padding={2}>
-                <form onSubmit={onSubmit}>
 
+                <form onSubmit={onSubmit} >
                     <Box display={'block'}>
                         <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
                             <Box mr={2} sx={{ width: '20%' }} >
@@ -64,6 +65,8 @@ const UpdateDepart = () => {
                             </Box>
                             <Box sx={{ width: '80%' }} >
                                 <TextField
+
+                                    // defaultValue={name_department}
                                     value={name_department}
                                     onChange={onChangeDepartmentForm}
                                     name='name_department'
@@ -112,13 +115,14 @@ const UpdateDepart = () => {
                                     <Button sx={{ background: 'green' }} variant='contained' type="submit">Save</Button>
                                 </Box>
                                 <Box>
-                                    <Button sx={{ background: 'red' }} variant='contained' >Cancel</Button>
+                                    <Button sx={{ background: 'red' }} variant='contained' onClick={() => navigate('/home/departments')} >Cancel</Button>
                                 </Box>
                             </Box>
                         </Box>
 
                     </Box>
                 </form>
+
             </Box>
 
         </>

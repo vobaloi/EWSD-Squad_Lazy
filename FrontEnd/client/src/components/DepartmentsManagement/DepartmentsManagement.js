@@ -109,8 +109,9 @@ export default function Department() {
     const navigate = useNavigate()
 
     //context
-    const { departSate: { departments, departmentsLoading }, getAllDepartments, deleteDepart } = useContext(DepartmentContext)
+    const { departSate: { departments, departmentsLoading, }, getAllDepartments, deleteDepart } = useContext(DepartmentContext)
     React.useEffect(() => getAllDepartments(), [])
+
 
 
     const emptyRows =
