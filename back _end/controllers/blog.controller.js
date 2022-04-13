@@ -107,9 +107,7 @@ exports.list = async (req, res) => {
       $project: {
         _id: 1,
         createdAt: 1,
-        title: 1,
-        short_description: 1,
-        description: 1,
+        content: 1,
         image: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
