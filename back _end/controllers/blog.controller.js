@@ -515,3 +515,47 @@ exports.toggle_dislike = async (req, res) => {
       });
     });
 };
+exports.delete = async (req, res) => {
+  let blog_id = req.params.blog_id;
+  if (!mongoose.Types.ObjectId.isValid(blog_id)) {
+    return res.status(400).send({
+      message: "Invalid blog id",
+      data: {},
+    });
+  }
+
+  Blog.findOne({ _id: blog_id })
+    .then(async (blog) => {
+      if (!blog) {
+        return res.status(400).send({
+          message: "No blog found",
+          data: {},
+        });
+      } else {
+        let current_user = req.user;
+        if (blog.created_by != current_user._id) {
+          return res.status(400).send({
+            message: "Access denied",
+            data: {},
+          });
+        } else {
+          let old_path = publicPath + "/uploads/blog_images/" + blog.image;
+          if (fs.existsSync(old_path)) {
+            fs.unlinkSync(old_path);
+          }
+
+          await Blog.deleteOne({ _id: blog_id });
+          return res.status(200).send({
+            message: "Blog successfully deleted",
+            data: {},
+          });
+        }
+      }
+    })
+    .catch((err) => {
+      return res.status(400).send({
+        message: err.message,
+        data: err,
+      });
+    });
+};
