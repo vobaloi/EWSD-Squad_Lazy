@@ -31,7 +31,7 @@ exports.list = async (req, res) => {
     let query = [
       {
         $lookup: {
-          from: "users",
+          from: "accounts",
           localField: "created_by",
           foreignField: "_id",
           as: "creator",
@@ -47,41 +47,50 @@ exports.list = async (req, res) => {
         },
       },
       { $unwind: "$category_details" },
+      {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department_details",
+        },
+      },
+      { $unwind: "$department_details" },
     ];
 
-    if (req.query.keyword && req.query.keyword != "") {
-      query.push({
-        $match: {
-          $or: [
-            {
-              title: { $regex: req.query.keyword },
-            },
-            {
-              "category_details.name": { $regex: req.query.keyword },
-            },
-            {
-              "creator.email": { $regex: req.query.keyword },
-            },
-          ],
-        },
-      });
-    }
+    // if (req.query.keyword && req.query.keyword != "") {
+    //   query.push({
+    //     $match: {
+    //       $or: [
+    //         {
+    //           content: { $regex: req.query.keyword },
+    //         },
+    //         {
+    //           "category_details.name_category": { $regex: req.query.keyword },
+    //         },
+    //         {
+    //           "creator.email": { $regex: req.query.keyword },
+    //         },
+    //       ],
+    //     },
+    //   });
+    // }
 
-    if (req.query.category) {
-      query.push({
-        $match: {
-          "category_details.slug": req.query.category,
-        },
-      });
-    }
+    // if (req.query.category) {
+    //   query.push({
+    //     $match: {
+    //       "category_details.slug": req.query.category,
+    //     },
+    //   });
+    // }
 
-    if (req.query.user_id) {
-      query.push({
-        $match: {
-          created_by: mongoose.Types.ObjectId(req.query.user_id),
-        },
-      });
-    }
+    // if (req.query.user_id) {
+    //   query.push({
+    //     $match: {
+    //       created_by: mongoose.Types.ObjectId(req.query.user_id),
+    //     },
+    //   });
+    // }
 
     let total = await Blog.countDocuments(query);
     let page = req.query.page ? parseInt(req.query.page) : 1;
@@ -102,8 +111,9 @@ exports.list = async (req, res) => {
         short_description: 1,
         description: 1,
         image: 1,
-        "category_details.name": 1,
-        "category_details.slug": 1,
+        "department_details.name_department": 1,
+        "department_details._id": 1,
+        "category_details.name_category": 1,
         "category_details._id": 1,
         "creator._id": 1,
         "creator.email": 1,
