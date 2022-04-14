@@ -4,13 +4,14 @@ export const authReducer = (state, action) => {
     switch (type) {
         case 'SET_AUTH':
             return {
-                ...state
+                ...state,
+                user: payload,
+                authLoading: false,
             }
         case 'USERS_LOAD_SUCCESS':
             return {
                 ...state,
-                Users: payload,
-                authLoading: false
+                Users: action.payload,
             }
         case 'USERS_LOAD_FAIL':
             return {

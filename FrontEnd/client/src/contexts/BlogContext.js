@@ -2,8 +2,7 @@ import React, { useReducer, createContext } from "react"
 import { blogReducer } from '../reducers/blogReducer';
 //import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
 import axios from "axios";
-import { apiUrl } from './constants';
-import { Delete } from "@mui/icons-material";
+import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from './constants';
 
 
 export const BlogContext = createContext()
@@ -17,19 +16,28 @@ const BlogContextProvider = ({ children }) => {
     //Get all departments
     const getAllBlogs = async () => {
         try {
-            const response = await axios.get(`${apiUrl}`)
+
+            const response = await axios.get(`${apiUrl}/blogs`)
             if (response.data) {
-                console.log("data luu payload", response.data)
-                dispatch({ type: 'BLOGS_LOAD_SUCCESS', payload: response.data })
+                console.log("data luu payload", response.data.data.blogs)
+                dispatch({ type: 'BLOGS_LOAD_SUCCESS', payload: response.data.data.blogs })
             }
         } catch (error) {
             dispatch({ type: 'BLOGS_LOAD_FAIL' })
         }
     }
 
+    //add a new blog
     const addNewBlog = async BlogForm => {
         try {
-            const response = await axios.post(`${apiUrl}`, BlogForm)
+            let token = localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)
+            console.log(token)
+            const response = await axios.post(`${apiUrl}/blogs/create`, BlogForm, {
+
+                headers: {
+                    "Authorization": token
+                }
+            })
             console.log("data a new blog", response)
             if (response)
                 dispatch({ type: 'ADD_NEW_BLOG', payload: response })
@@ -41,14 +49,22 @@ const BlogContextProvider = ({ children }) => {
         }
     }
 
+    //get a blog by category id
     const getBlogByCateId = async (_id) => {
         const response = await axios.get(`${apiUrl}`)
         console.log("blog by cate: ", response)
     }
 
     const DeleteBlog = async (_id) => {
-        const response = await axios.delete(`${apiUrl}`)
-        console.log("delete blog: ", response)
+        let token = localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)
+        const response = await axios.delete(`${apiUrl}/blogs/` + _id + `/delete`, {
+
+            headers: {
+                "Authorization": token
+            }
+        })
+        console.log("delete blog: ", response.data)
+        return response.data
     }
 
     const BlogContextData = { BlogState, getAllBlogs, addNewBlog, getBlogByCateId, DeleteBlog }

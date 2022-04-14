@@ -37,6 +37,7 @@ import ProtectedRoutes from "./components/route/ProtectedRoutes/ProtectedRoutes"
 //users
 import AddNewUser from './components/ManagementUsers/AddNewUser'
 import UpdateUser from "./components/ManagementUsers/UpdateUser";
+import CommentContextProvider from "./contexts/CommentContext";
 
 
 
@@ -48,46 +49,48 @@ ReactDOM.render(
         <DepartmentContextProvider>
           <CategoryContextProvider>
             <BlogContextProvider>
-              <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="login" element={<Login />} />
-                <Route path="/" element={<ProtectedRoutes />}>
-                  <Route path="home" element={<HomePage />}>
-                    <Route
-                      path="/home"
-                      element={<Navigate replace to="dashboard" />}
-                    />
-                    {/*dashboard */}
-                    <Route path="dashboard" element={<Dashboard />} />
+              <CommentContextProvider>
+                <Routes>
+                  <Route path="/" element={<App />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="/" element={<ProtectedRoutes />}>
+                    <Route path="home" element={<HomePage />}>
+                      <Route
+                        path="/home"
+                        element={<Navigate replace to="dashboard" />}
+                      />
+                      {/*dashboard */}
+                      <Route path="dashboard" element={<Dashboard />} />
 
-                    {/* ideas */}
-                    <Route path="view-ideas" element={<ViewIdeas />} />
-                    <Route path="write-idea" element={<WriteIdea />} />
-                    <Route path="management-ideas" element={<ManagementIdeas />} />
+                      {/* ideas */}
+                      <Route path="view-ideas" element={<ViewIdeas />} />
+                      <Route path="write-idea" element={<WriteIdea />} />
+                      <Route path="management-ideas" element={<ManagementIdeas />} />
 
-                    {/* users */}
-                    <Route path="management-users" element={<ManagementUsers />} />
-                    <Route path="update-user" element={<UpdateUser />} />
-                    <Route path="register-user" element={<AddNewUser />} />
-
-
-                    {/* department */}
-                    <Route path="departments" element={<DepartmentsManagement />} />
-                    <Route path="new-department" element={<AddNewDepart />} />
-                    <Route path="update-department/:_id" element={<UpdateDepart />} />
+                      {/* users */}
+                      <Route path="management-users" element={<ManagementUsers />} />
+                      <Route path="update-user" element={<UpdateUser />} />
+                      <Route path="register-user" element={<AddNewUser />} />
 
 
-                    {/* categories */}
-                    <Route path="categories" element={<CategoriesManagement />} />
-                    <Route path="new-category" element={<AddNewCategory />} />
-                    <Route path="update-category/:id" element={<UpdateCategory />} />
+                      {/* department */}
+                      <Route path="departments" element={<DepartmentsManagement />} />
+                      <Route path="new-department" element={<AddNewDepart />} />
+                      <Route path="update-department/:_id" element={<UpdateDepart />} />
 
-                    <Route path="setting-profiles" element={<SettingProfiles />} />
-                    <Route path="update-profile" element={<UpdateProfile />} />
+
+                      {/* categories */}
+                      <Route path="categories" element={<CategoriesManagement />} />
+                      <Route path="new-category" element={<AddNewCategory />} />
+                      <Route path="update-category/:id" element={<UpdateCategory />} />
+
+                      <Route path="setting-profiles" element={<SettingProfiles />} />
+                      <Route path="update-profile" element={<UpdateProfile />} />
+                    </Route>
                   </Route>
-                </Route>
-                <Route path="*" element={<PageNotFound />} />
-              </Routes>
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </CommentContextProvider>
             </BlogContextProvider>
           </CategoryContextProvider>
         </DepartmentContextProvider>
