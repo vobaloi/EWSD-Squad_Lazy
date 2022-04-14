@@ -109,6 +109,7 @@ exports.list = async (req, res) => {
         createdAt: 1,
         content: 1,
         image: 1,
+        blog_comments: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
         "category_details.name_category": 1,
@@ -157,6 +158,7 @@ exports.list = async (req, res) => {
 exports.details = async (req, res) => {
   try {
     let blog_id = req.params.blog_id;
+    console.log(blog_id);
 
     if (!mongoose.Types.ObjectId.isValid(blog_id)) {
       return res.status(400).send({
@@ -171,7 +173,7 @@ exports.details = async (req, res) => {
     let query = [
       {
         $lookup: {
-          from: "users",
+          from: "accounts",
           localField: "created_by",
           foreignField: "_id",
           as: "creator",
@@ -187,6 +189,15 @@ exports.details = async (req, res) => {
         },
       },
       { $unwind: "$category_details" },
+      // {
+      //   $lookup: {
+      //     from: "blogcomments",
+      //     localField: "blog_comments",
+      //     foreignField: "_id",
+      //     as: "comments_details",
+      //   },
+      // },
+      // { $unwind: "$comments_details" },
       {
         $match: {
           _id: mongoose.Types.ObjectId(blog_id),
@@ -196,10 +207,10 @@ exports.details = async (req, res) => {
         $project: {
           _id: 1,
           createdAt: 1,
-          title: 1,
-          short_description: 1,
-          description: 1,
+          createdAt: 1,
+          content: 1,
           image: 1,
+          blog_comments: 1,
           "category_details.name": 1,
           "category_details.slug": 1,
           "category_details._id": 1,
@@ -281,6 +292,8 @@ exports.create = async (req, res) => {
       department: req.body.department,
       content: req.body.content,
     });
+    console.log("image:", image_file_name);
+
     const created = req.user._id;
     console.log("created", created);
     let blogData = await newBlog.save();

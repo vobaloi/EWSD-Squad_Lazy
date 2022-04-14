@@ -4,7 +4,7 @@ const blogRoute = require("./blog.route");
 const blogCommentRoute = require("./blogComment.route");
 const departmentRoute = require("./department.router");
 const categoryRoute = require("./categoryRoute");
-const ErrorMiddleWare = require("../middleware/error")
+const ErrorMiddleWare = require("../middleware/error");
 
 module.exports = (app) => {
   app.get("/", function (req, res) {
@@ -13,17 +13,12 @@ module.exports = (app) => {
     });
   });
 
-
   app.use("/auth", authRoute);
   app.use("/profile", profileRoute);
   app.use("/blogs", blogRoute);
-  // app.use("/blogs", blogCommentRoute);
+  app.use("/blogs", blogCommentRoute);
   app.use("/depart", departmentRoute);
   app.use("/cate", categoryRoute);
 
   app.use(ErrorMiddleWare);
-
-
 };
-
-
