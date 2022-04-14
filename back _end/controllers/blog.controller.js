@@ -56,6 +56,15 @@ exports.list = async (req, res) => {
         },
       },
       { $unwind: "$department_details" },
+      // {
+      //   $lookup: {
+      //     from: "blogcomments",
+      //     localField: "blog_comments",
+      //     foreignField: "_id",
+      //     as: "blog_comment_detail",
+      //   },
+      // },
+      // { $unwind: "$blog_comment_detail" },
     ];
 
     // if (req.query.keyword && req.query.keyword != "") {

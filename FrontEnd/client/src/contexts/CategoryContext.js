@@ -26,9 +26,9 @@ const CategoryContextProvider = ({ children }) => {
         }
     }
 
-    const addNewCate = async cateForm => {
+    const addNewCate = async (cateForm, image) => {
         try {
-            const response = await axios.post(`${apiUrl}/cate/addCate`, cateForm)
+            const response = await axios.post(`${apiUrl}/cate/addCate`, cateForm, image)
             console.log("data", response.data)
             if (response.data)
                 dispatch({ type: 'ADD_NEW_CATEGORY', payload: response.data })

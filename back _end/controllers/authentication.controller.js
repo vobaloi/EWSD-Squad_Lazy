@@ -73,19 +73,19 @@ exports.login = async (req, res) => {
       } else {
         return res.status(400).send({
           message: "Incorrect credentials",
-          data: {},
+
         });
       }
     } else {
       return res.status(400).send({
         message: "User is not registered",
-        data: {},
+
       });
     }
   } catch (err) {
     return res.status(400).send({
       message: err.message,
-      data: err,
+
     });
   }
 };

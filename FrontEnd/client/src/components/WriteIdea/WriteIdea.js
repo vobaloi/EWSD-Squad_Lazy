@@ -9,6 +9,8 @@ import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 import { DepartmentContext } from '../../contexts/DepartmentContext';
 import { CategoryContext } from '../../contexts/CategoryContext';
+import { BlogContext } from '../../contexts/BlogContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 
 const WriteIdea = () => {
@@ -17,14 +19,28 @@ const WriteIdea = () => {
 
     const { cateSate: { categories }, getAllCategories } = useContext(CategoryContext)
     React.useEffect(() => getAllCategories(), [])
+
+    const { BlogState: { blogs }, addNewBlog } = useContext(BlogContext)
+
+
+
+
+
+
+
     const [ideaForm, setIdeaForm] = useState({
         department: '',
         category: '',
-        description: '',
-        file: '',
-
+        content: '',
+        image: ''
 
     })
+
+
+
+
+
+
     const [anonymous, setAnonymous] = useState(false)
     const [termAgree, setTermAgree] = useState(false)
     const [disabled, setDisabled] = useState(true)
@@ -43,30 +59,46 @@ const WriteIdea = () => {
         }
 
     }
-    const onChangeIdeaForm = (event) =>
+    const onChangeIdeaForm = (event) => {
         setIdeaForm({ ...ideaForm, [event.target.name]: event.target.value })
+    }
+    const onChangeImageForm = (event) => {
+        setIdeaForm({ ...ideaForm, image: event.target.files[0] })
+    }
 
-    const { department, description, file, category } = ideaForm
+
 
     const DataSubmit = () => {
+        const formData = new FormData();
+        formData.append('department', ideaForm.department);
+        formData.append('category', ideaForm.category);
+        formData.append('content', ideaForm.content);
+        formData.append('image', ideaForm.image);
 
-        console.log("data submit", ideaForm,)
-        if (!ideaForm.category) {
-            alert("You need to select name of your category")
 
-        }
-        if (!ideaForm.department) {
-            alert("You need to select name of your department")
+        console.log("data submit", ideaForm)
 
-        } if (ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe') {
-            alert("files is not accept")
+        const DataIdea = addNewBlog(formData)
+        console.log("after submit", DataIdea)
+        navigate('/home/view-ideas')
+        // if (!ideaForm.category) {
+        //     alert("You need to select name of your category")
 
-        }
+        // }
+        // if (!ideaForm.department) {
+        //     alert("You need to select name of your department")
+
+        // } if (ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe') {
+        //     alert("files is not accept")
+
+        // }
     }
+
 
     const navigate = useNavigate()
     return (
         <>
+
             <Box sx={{ textAlign: '-webkit-center' }} >
                 <Box component={Paper} elevation={12} width="60%" border={2} sx={{ mt: 5, borderRadius: 4, p: 2 }} display={"block"} >
                     <Grid display={'flex'} sx={{ alignItems: 'center', mb: 5, paddingLeft: 3, justifyContent: 'space-between' }}>
@@ -78,7 +110,7 @@ const WriteIdea = () => {
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Without label' }}
                                 onChange={onChangeIdeaForm}
-                                value={department}
+                                value={ideaForm.department}
                                 name="department">
                                 <MenuItem value="">
                                     <em>None</em>
@@ -97,7 +129,7 @@ const WriteIdea = () => {
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Without label' }}
                                 onChange={onChangeIdeaForm}
-                                value={category}
+                                value={ideaForm.category}
                                 name="category">
 
                                 <MenuItem value="">
@@ -119,8 +151,8 @@ const WriteIdea = () => {
                                 placeholder='Content'
                                 style={{ fontSize: 18 }}
                                 onChange={onChangeIdeaForm}
-                                value={description}
-                                name="description"
+                                value={ideaForm.content}
+                                name="content"
                                 minRows={3}
                             />
                         </FormControl>
@@ -129,8 +161,9 @@ const WriteIdea = () => {
                         <Box display={'flex'} >
                             <Typography variant='h6' mr={4} fontWeight={800}>Upload file:</Typography>
                         </Box>
-                        <Input accept="image/*" id="contained-button-file" value={file} onChange={onChangeIdeaForm} name="file" multiple type="file" />
-                        {ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe' ? <FormHelperText>Not accept files .exe</FormHelperText> : null}
+                        <Input onChange={onChangeImageForm} type="file" />
+
+                        {/* {ideaForm.image.substring(ideaForm.image.length - 3, ideaForm.image.length) === 'exe' ? <FormHelperText>Not accept files .exe</FormHelperText> : null} */}
                     </Grid>
                     <Grid display={'flex'} sx={{ alignItems: 'center', paddingLeft: 3, justifyContent: 'space-between' }}>
                         <Box>

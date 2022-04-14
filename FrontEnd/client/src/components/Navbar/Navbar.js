@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -24,6 +24,9 @@ import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+
+//context
+import { AuthContext } from '../../contexts/AuthContext';
 
 const drawerWidth = 240;
 
@@ -78,6 +81,11 @@ export default function Navbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
+
+  const { authState: { user, authLoading } } = useContext(AuthContext)
+  // React.useEffect(() => loadUser(), [])
+  console.log("user", user)
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -85,6 +93,7 @@ export default function Navbar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -132,10 +141,15 @@ export default function Navbar() {
             <Box marginLeft={"auto"}>
               <Avatar alt="Remy Sharp" src="/" />
             </Box>
-            <Box marginLeft={2}>
-              <Typography>Username</Typography>
-              <Typography>Roles</Typography>
-            </Box>
+            {authLoading ?
+              <Box marginLeft={2}>
+                <Typography ></Typography>
+                <Typography></Typography>
+              </Box> : <Box marginLeft={2}>
+                <Typography >{user.user}</Typography>
+                <Typography>{user.role}</Typography>
+              </Box>}
+
           </Box>
         </Toolbar>
       </AppBar>
