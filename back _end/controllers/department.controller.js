@@ -11,14 +11,16 @@ exports.addDepart = async (req, res) => {
     name_department:
       "required|minLength:5|maxLength:100|unique:Department,name_department",
     description: "required",
-    owner: "required",
+    email: "required",
+
+
   });
   const matched = await v.check();
   if (!matched) {
     return res.status(422).send(v.errors);
   }
   try {
-    let checkEmail = await user.findOne({ email: req.body.owner });
+    let checkEmail = await user.findOne({ email: req.body.email });
     if (checkEmail) {
       console.log(checkEmail._id);
 
@@ -26,7 +28,9 @@ exports.addDepart = async (req, res) => {
         name_department: req.body.name_department,
         description: req.body.description,
         owner: checkEmail._id,
-        email: req.body.owner,
+        email: req.body.email
+
+
       });
 
       console.log("newDepart", newDepart);
@@ -77,6 +81,7 @@ exports.addDepart = async (req, res) => {
 
 exports.departments = async function (req, res) {
   try {
+
     const allDepartments = await Department.find();
     res.status(200).send({ allDepartments });
   } catch (error) {
@@ -87,20 +92,21 @@ exports.departments = async function (req, res) {
   }
 };
 
-// exports.A_departments = async (req, res) => {
-//   try {
-//     const department = await Department.findById(req.params.id);
-//     res.status(200).send({
-//       department,
-//     });
-//   } catch (error) {
-//     res.status(400).send({
-//       message: error.message,
-//       data: error,
-//     });
-//   }
-// };
-// update department
+exports.A_departments = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    res.status(200).send({
+      department,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: error.message,
+      data: error,
+    });
+  }
+};
+
+//update department
 
 exports.update = async (req, res) => {
   try {
@@ -115,9 +121,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
+    await Category.updateMany({ departs: req.params.id }, { departs: null });
     await Department.findByIdAndDelete(req.params.id);
-    res.status(200).json("Delete successfuly");
-  } catch (error) {
-    res.status(400).json("Error updating department");
+    res.status(200).json("Deleted successfully!");
+  } catch (err) {
+    res.status(500).json(err);
   }
 };

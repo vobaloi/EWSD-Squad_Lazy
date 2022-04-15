@@ -31,7 +31,7 @@ exports.list = async (req, res) => {
     let query = [
       {
         $lookup: {
-          from: "users",
+          from: "accounts",
           localField: "created_by",
           foreignField: "_id",
           as: "creator",
@@ -47,41 +47,59 @@ exports.list = async (req, res) => {
         },
       },
       { $unwind: "$category_details" },
+      {
+        $lookup: {
+          from: "departments",
+          localField: "department",
+          foreignField: "_id",
+          as: "department_details",
+        },
+      },
+      { $unwind: "$department_details" },
+      // {
+      //   $lookup: {
+      //     from: "blogcomments",
+      //     localField: "blog_comments",
+      //     foreignField: "_id",
+      //     as: "blog_comment_detail",
+      //   },
+      // },
+      // { $unwind: "$blog_comment_detail" },
     ];
 
-    if (req.query.keyword && req.query.keyword != "") {
-      query.push({
-        $match: {
-          $or: [
-            {
-              title: { $regex: req.query.keyword },
-            },
-            {
-              "category_details.name": { $regex: req.query.keyword },
-            },
-            {
-              "creator.email": { $regex: req.query.keyword },
-            },
-          ],
-        },
-      });
-    }
+    // if (req.query.keyword && req.query.keyword != "") {
+    //   query.push({
+    //     $match: {
+    //       $or: [
+    //         {
+    //           content: { $regex: req.query.keyword },
+    //         },
+    //         {
+    //           "category_details.name_category": { $regex: req.query.keyword },
+    //         },
+    //         {
+    //           "creator.email": { $regex: req.query.keyword },
+    //         },
+    //       ],
+    //     },
+    //   });
+    // }
 
-    if (req.query.category) {
-      query.push({
-        $match: {
-          "category_details.slug": req.query.category,
-        },
-      });
-    }
+    // if (req.query.category) {
+    //   query.push({
+    //     $match: {
+    //       "category_details.slug": req.query.category,
+    //     },
+    //   });
+    // }
 
-    if (req.query.user_id) {
-      query.push({
-        $match: {
-          created_by: mongoose.Types.ObjectId(req.query.user_id),
-        },
-      });
-    }
+    // if (req.query.user_id) {
+    //   query.push({
+    //     $match: {
+    //       created_by: mongoose.Types.ObjectId(req.query.user_id),
+    //     },
+    //   });
+    // }
 
     let total = await Blog.countDocuments(query);
     let page = req.query.page ? parseInt(req.query.page) : 1;
@@ -98,12 +116,12 @@ exports.list = async (req, res) => {
       $project: {
         _id: 1,
         createdAt: 1,
-        title: 1,
-        short_description: 1,
-        description: 1,
+        content: 1,
         image: 1,
-        "category_details.name": 1,
-        "category_details.slug": 1,
+        blog_comments: 1,
+        "department_details.name_department": 1,
+        "department_details._id": 1,
+        "category_details.name_category": 1,
         "category_details._id": 1,
         "creator._id": 1,
         "creator.email": 1,
@@ -149,6 +167,7 @@ exports.list = async (req, res) => {
 exports.details = async (req, res) => {
   try {
     let blog_id = req.params.blog_id;
+    console.log(blog_id);
 
     if (!mongoose.Types.ObjectId.isValid(blog_id)) {
       return res.status(400).send({
@@ -163,7 +182,7 @@ exports.details = async (req, res) => {
     let query = [
       {
         $lookup: {
-          from: "users",
+          from: "accounts",
           localField: "created_by",
           foreignField: "_id",
           as: "creator",
@@ -179,6 +198,15 @@ exports.details = async (req, res) => {
         },
       },
       { $unwind: "$category_details" },
+      // {
+      //   $lookup: {
+      //     from: "blogcomments",
+      //     localField: "blog_comments",
+      //     foreignField: "_id",
+      //     as: "comments_details",
+      //   },
+      // },
+      // { $unwind: "$comments_details" },
       {
         $match: {
           _id: mongoose.Types.ObjectId(blog_id),
@@ -188,10 +216,10 @@ exports.details = async (req, res) => {
         $project: {
           _id: 1,
           createdAt: 1,
-          title: 1,
-          short_description: 1,
-          description: 1,
+          createdAt: 1,
+          content: 1,
           image: 1,
+          blog_comments: 1,
           "category_details.name": 1,
           "category_details.slug": 1,
           "category_details._id": 1,
@@ -248,11 +276,10 @@ exports.create = async (req, res) => {
     req.body["image"] = req.files.image;
   }
   const v = new Validator(req.body, {
-    title: "required|minLength:5|maxLength:100",
-    short_description: "required",
-    description: "required",
     category: "required",
     image: "required|mime:jpg.jpeg,png",
+    department: "required",
+    content: "required",
   });
   const matched = await v.check();
   if (!matched) {
@@ -268,15 +295,18 @@ exports.create = async (req, res) => {
     }
 
     const newBlog = new Blog({
-      title: req.body.title,
-      short_description: req.body.short_description,
-      description: req.body.description,
       category: req.body.category,
       created_by: req.user._id,
       image: image_file_name,
+      department: req.body.department,
+      content: req.body.content,
     });
+    console.log("image:", image_file_name);
+
+    const created = req.user._id;
+    console.log("created", created);
     let blogData = await newBlog.save();
-    console.log(newBlog);
+    console.log("hafkjashdfasdfasdf", blogData._id);
     let query = [
       {
         $lookup: {
@@ -287,15 +317,15 @@ exports.create = async (req, res) => {
         },
       },
       { $unwind: "$creator" },
-      {
-        $lookup: {
-          from: "categories",
-          localField: "category",
-          foreignField: "_id",
-          as: "category_details",
-        },
-      },
-      { $unwind: "$category_details" },
+      // {
+      //   $lookup: {
+      //     from: "categories",
+      //     localField: "category",
+      //     foreignField: "_id",
+      //     as: "category_details",
+      //   },
+      // },
+      // { $unwind: "$category_details" },
       {
         $match: {
           _id: mongoose.Types.ObjectId(blogData._id),
@@ -305,9 +335,9 @@ exports.create = async (req, res) => {
         $project: {
           _id: 1,
           createdAt: 1,
-          title: 1,
-          short_description: 1,
-          description: 1,
+          content: 1,
+          department: 1,
+          category: 1,
           image: 1,
           "category_details.name": 1,
           "category_details.slug": 1,
@@ -323,6 +353,7 @@ exports.create = async (req, res) => {
     ];
 
     let blogs = await Blog.aggregate(query);
+    console.log("infor", blogs);
 
     return res.status(201).send({
       message: "Blog created successfully",
@@ -497,6 +528,50 @@ exports.toggle_dislike = async (req, res) => {
               data: err,
             });
           });
+      }
+    })
+    .catch((err) => {
+      return res.status(400).send({
+        message: err.message,
+        data: err,
+      });
+    });
+};
+exports.delete = async (req, res) => {
+  let blog_id = req.params.blog_id;
+  if (!mongoose.Types.ObjectId.isValid(blog_id)) {
+    return res.status(400).send({
+      message: "Invalid blog id",
+      data: {},
+    });
+  }
+
+  Blog.findOne({ _id: blog_id })
+    .then(async (blog) => {
+      if (!blog) {
+        return res.status(400).send({
+          message: "No blog found",
+          data: {},
+        });
+      } else {
+        let current_user = req.user;
+        if (blog.created_by != current_user._id) {
+          return res.status(400).send({
+            message: "Access denied",
+            data: {},
+          });
+        } else {
+          let old_path = publicPath + "/uploads/blog_images/" + blog.image;
+          if (fs.existsSync(old_path)) {
+            fs.unlinkSync(old_path);
+          }
+
+          await Blog.deleteOne({ _id: blog_id });
+          return res.status(200).send({
+            message: "Blog successfully deleted",
+            data: {},
+          });
+        }
       }
     })
     .catch((err) => {

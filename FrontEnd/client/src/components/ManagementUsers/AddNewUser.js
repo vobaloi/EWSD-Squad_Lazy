@@ -12,15 +12,35 @@ import * as React from "react";
 
 const AddNewUser = () => {
   const [role, setRole] = React.useState("");
+  const [AccoutForm, setAccountForm] = React.useState({
+    username: makeUserName(10)
+  })
 
   const handleChange = (event) => {
     setRole(event.target.value);
   };
+  function makeUserName(length) {
+    var result = 'GREENWICH_';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
+    return result;
+  }
+
+  const { username } = AccoutForm
+
+  const onSubmit = () => {
+
+    console.log("submit", AccoutForm.username)
+  }
   return (
     <Grid
       sx={{
         width: "80%",
-        height: 600,
+        paddingBottom: 5,
         backgroundColor: "#F9CB9C",
         margin: "50px auto",
         borderRadius: 15,
@@ -39,7 +59,7 @@ const AddNewUser = () => {
           <h3>Username:</h3>
         </Box>
         <Box sx={{ width: "70%" }}>
-          <TextField sx={{ background: "white" }} fullWidth size="small" />
+          <TextField value={username} disabled sx={{ background: "white" }} fullWidth size="small" />
         </Box>
       </Box>
       <Box
@@ -71,19 +91,6 @@ const AddNewUser = () => {
             size="small"
             type={"password"}
           />
-        </Box>
-      </Box>
-      <Box
-        display={"flex"}
-        sx={{
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ width: "15%", marginLeft: 10, textAlign: "left" }}>
-          <h3>Telephone:</h3>
-        </Box>
-        <Box sx={{ width: "70%" }}>
-          <TextField sx={{ background: "white" }} fullWidth size="small" />
         </Box>
       </Box>
       <Box display={"flex"}>
@@ -126,6 +133,7 @@ const AddNewUser = () => {
                 height: 50,
                 width: 120,
               }}
+              onClick={() => onSubmit()}
             >
               Add
             </Button>

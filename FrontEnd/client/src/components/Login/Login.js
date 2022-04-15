@@ -46,6 +46,10 @@ function Login() {
     password: "",
   });
 
+  const { authState: { user } } = useContext(AuthContext)
+  // React.useEffect(() => loadUser(), [])
+  console.log("user", user)
+
   const { email, password } = loginForm;
 
   const onChangeLoginForm = (event) =>
@@ -55,8 +59,8 @@ function Login() {
     event.preventDefault();
     try {
       const LoginData = await loginUser(loginForm);
-      console.log(LoginData)
-      if (LoginData) {
+      console.log('data login', LoginData)
+      if (LoginData.data) {
         return navigate('/home/dashboard')
       } else {
         return alert('Email or password incorrect!')

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -17,7 +17,15 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Tooltip, Typography } from '@mui/material';
+import { Avatar, Tooltip, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+//context 
+import { AuthContext } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -80,27 +88,16 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(username, email, avatar, role, status) {
-    return { username, email, avatar, role, status };
-}
+export default function ManagementUser() {
+    const { authState: { Users }, getAllUser } = useContext(AuthContext)
+    useEffect(() => getAllUser(), [])
 
-const rows = [
-    createData('Cupcake', "email1@gmail.com", null, 'Staff', 1),
-    createData('Cupcake2', "email1@gmail.com", null, 'Staff', 0),
-    createData('Cupcake3', "email1@gmail.com", null, 'Staff', 0),
-    createData('Cupcake4', "email1@gmail.com", null, 'Staff', 0),
-    createData('Cupcake5', "email1@gmail.com", null, 'Staff', 0),
-    createData('Cupcake6', "email1@gmail.com", null, 'Staff', 0),
-
-].sort((a, b) => (a.username < b.username ? -1 : 1));
-
-export default function CustomPaginationActionsTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - Users.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -110,7 +107,7 @@ export default function CustomPaginationActionsTable() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
+    const navigate = useNavigate()
     return (
         <Box>
             <Box >
@@ -120,7 +117,7 @@ export default function CustomPaginationActionsTable() {
                     </Typography>
                 </Box>
                 <Box display={'flex'} alignItems='center'>
-                    <IconButton>
+                    <IconButton onClick={() => navigate('/home/register-user')}>
                         <Tooltip title="Add new user">
                             <AddCircleIcon fontSize='large' />
                         </Tooltip>
@@ -135,36 +132,38 @@ export default function CustomPaginationActionsTable() {
                 <Table sx={{}} aria-label="custom pagination table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>UserName</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Avatar</TableCell>
-                            <TableCell align="right">Role</TableCell>
-                            <TableCell align="right">Status</TableCell>
-                            <TableCell align="right">Action</TableCell>
+                            <TableCell align="left">Email</TableCell>
+                            <TableCell align="left">Avatar</TableCell>
+                            <TableCell align="center">Role</TableCell>
+                            <TableCell align="center">Status</TableCell>
+                            <TableCell align="center">Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {(rowsPerPage > 0
-                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : rows
-                        ).map((row) => (
-                            <TableRow key={row.username}>
-                                <TableCell component="th" scope="row">
-                                    {row.username}
+                            ? Users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : Users
+                        ).map((data) => (
+                            <TableRow key={data._id}>
+                                <TableCell align="left">
+                                    {data.email}
                                 </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.email}
+                                <TableCell align="left">
+                                    <Avatar />
                                 </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.avatar}
+                                <TableCell align='center' >
+                                    {data.role}
                                 </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.role}
+                                <TableCell align="center">
+                                    {data.status === 0 ? <Typography sx={{ color: 'red' }}>Not Active</Typography> : <Typography color={{ color: 'green' }}>Active</Typography>}
                                 </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.status == 0 ? <Typography sx={{ color: 'red' }}>Not Active</Typography> : <Typography color={{ color: 'green' }}>Active</Typography>}
-                                </TableCell>
-                                <TableCell style={{ width: 160 }} align="right">
+                                <TableCell align="center">
+                                    <IconButton onClick={() => navigate('/home/update-user')} >
+                                        <EditIcon fontSize='large' />
+                                    </IconButton>
+                                    <IconButton >
+                                        <DeleteIcon fontSize='large' />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -179,7 +178,7 @@ export default function CustomPaginationActionsTable() {
                         <TableRow>
                             <TablePagination
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                count={rows.length}
+                                count={Users.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 SelectProps={{

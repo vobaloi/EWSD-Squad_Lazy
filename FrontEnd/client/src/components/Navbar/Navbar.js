@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -25,6 +25,9 @@ import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { makeStyles } from "@material-ui/core";
+
+//context
+import { AuthContext } from '../../contexts/AuthContext';
 
 const drawerWidth = 240;
 
@@ -100,8 +103,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const navigate = useNavigate();
 
+  const [role, setRole] = useState("admin")
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+
+  const { authState: { user, authLoading } } = useContext(AuthContext)
+  // React.useEffect(() => loadUser(), [])
+  console.log("user", user)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -158,10 +167,15 @@ export default function Navbar() {
             <Box className={classes.profileAvatar}>
               <Avatar alt="Remy Sharp" src="/" />
             </Box>
-            <Box className={classes.profileText} sx={{ ml: 1 }}>
-              <Typography>Username</Typography>
-              <Typography>Roles</Typography>
-            </Box>
+            {authLoading ?
+              <Box className={classes.profileText} sx={{ ml: 1 }}>
+                <Typography ></Typography>
+                <Typography></Typography>
+              </Box> : <Box marginLeft={2}>
+                <Typography >{user.user}</Typography>
+                <Typography>{user.role}</Typography>
+              </Box>}
+
           </Box>
         </Toolbar>
       </AppBar>
@@ -192,13 +206,16 @@ export default function Navbar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {mainNavbarItems.map((item, index) => (
-            <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-              <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItem>
+
+          {role && mainNavbarItems.map((item, index) => (
+            role === item.roles[0] || role === item.roles[1] || role === item.roles[2] || role === item.roles[3] ?
+              <ListItem button key={item.id} onClick={() => navigate(item.route)}>
+                <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+              : null
           ))}
         </List>
         <ListItem

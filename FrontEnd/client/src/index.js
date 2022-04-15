@@ -12,68 +12,90 @@ import SettingProfiles from "./components/SettingProfiles/SettingProfiles";
 import UpdateProfile from "./components/SettingProfiles/UpdateProfile";
 import Dashboard from "./components/Dashboard/Dashboard";
 
-//authContext
+//ContextProvider
 import AuthContextProvider from "./contexts/AuthContext";
-
-//departmentContext
+import CategoryContextProvider from "./contexts/CategoryContext";
 import DepartmentContextProvider from "./contexts/DepartmentContext";
+import BlogContextProvider from "./contexts/BlogContext";
 
-//department
+//departments
 import DepartmentsManagement from "./components/DepartmentsManagement/DepartmentsManagement";
 import AddNewDepart from "./components/DepartmentsManagement/AddNewDepart/AddNewDepart";
+import UpdateDepart from "./components/DepartmentsManagement/UpdateDepartment/UpdateDepartment";
 
 //categories
 import CategoriesManagement from "./components/CategoriesManagement/CategoriesManagement";
-
-import PageNotFound from "./pages/404Page";
-import ProtectedRoutes from "./components/route/ProtectedRoutes/ProtectedRoutes";
-import CategoryContextProvider from "./contexts/CategoryContext";
 import AddNewCategory from "./components/CategoriesManagement/AddNewCategory/AddNewCategory";
 import UpdateCategory from "./components/CategoriesManagement/UpdateCategory";
-import UpdateUser from "./components/ManagementUsers/UpdateUser";
 
-import PieChart from"./components/Dashboard/PieChart";
+//page not found
+import PageNotFound from "./pages/404Page";
+
+//routeProtected
+import ProtectedRoutes from "./components/route/ProtectedRoutes/ProtectedRoutes";
+
+//users
+import AddNewUser from './components/ManagementUsers/AddNewUser'
+import UpdateUser from "./components/ManagementUsers/UpdateUser";
+import CommentContextProvider from "./contexts/CommentContext";
+
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthContextProvider>
         <DepartmentContextProvider>
           <CategoryContextProvider>
-            <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="login" element={<Login />} />
-              <Route path="/" element={<ProtectedRoutes />}>
-                <Route path="home" element={<HomePage />}>
-                  <Route
-                    path="/home"
-                    element={<Navigate replace to="dashboard" />}
-                  />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="piechart" element={<PieChart />} />
-                  <Route path="viewideas" element={<ViewIdeas />} />
-                  <Route path="writeidea" element={<WriteIdea />} />
-                  <Route path="managementusers" element={<ManagementUsers />} />
-                  <Route path="updateuser" element={<UpdateUser />} />
-                  <Route path="managementideas" element={<ManagementIdeas />} />
-                  <Route
-                    path="departments"
-                    element={<DepartmentsManagement />}
-                  />
-                  <Route path="newdepartment" element={<AddNewDepart />} />
-                  <Route path="categories" element={<CategoriesManagement />} />
-                  <Route path="new-category" element={<AddNewCategory />} />
-                  <Route path="update-category" element={<UpdateCategory />} />
+            <BlogContextProvider>
+              <CommentContextProvider>
+                <Routes>
+                  <Route path="/" element={<App />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="/" element={<ProtectedRoutes />}>
+                    <Route path="home" element={<HomePage />}>
+                      <Route
+                        path="/home"
+                        element={<Navigate replace to="dashboard" />}
+                      />
+                      {/*dashboard */}
+                      <Route path="dashboard" element={<Dashboard />} />
 
-                  <Route path="settingprofiles" element={<SettingProfiles />} />
-                  <Route path="updateprofile" element={<UpdateProfile />} />
-                </Route>
-              </Route>
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
+                      {/* ideas */}
+                      <Route path="view-ideas" element={<ViewIdeas />} />
+                      <Route path="write-idea" element={<WriteIdea />} />
+                      <Route path="management-ideas" element={<ManagementIdeas />} />
+
+                      {/* users */}
+                      <Route path="management-users" element={<ManagementUsers />} />
+                      <Route path="update-user" element={<UpdateUser />} />
+                      <Route path="register-user" element={<AddNewUser />} />
+
+
+                      {/* department */}
+                      <Route path="departments" element={<DepartmentsManagement />} />
+                      <Route path="new-department" element={<AddNewDepart />} />
+                      <Route path="update-department/:_id" element={<UpdateDepart />} />
+
+
+                      {/* categories */}
+                      <Route path="categories" element={<CategoriesManagement />} />
+                      <Route path="new-category" element={<AddNewCategory />} />
+                      <Route path="update-category/:id" element={<UpdateCategory />} />
+
+                      <Route path="setting-profiles" element={<SettingProfiles />} />
+                      <Route path="update-profile" element={<UpdateProfile />} />
+                    </Route>
+                  </Route>
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </CommentContextProvider>
+            </BlogContextProvider>
           </CategoryContextProvider>
         </DepartmentContextProvider>
       </AuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );

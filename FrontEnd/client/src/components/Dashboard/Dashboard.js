@@ -1,11 +1,28 @@
-import { Paper, Box, Grid } from "@mui/material";
-import React from "react";
+import { Paper, Box } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { DepartmentContext } from '../../contexts/DepartmentContext'
+import { CategoryContext } from "../../contexts/CategoryContext";
+
 
 import Typography from "@mui/material/Typography";
-import PieChart from "./PieChart";
-import BarChart from "./BarChart";
 
 const Dashboard = () => {
+
+  const { authState: { Users }, getAllUser } = useContext(AuthContext)
+  React.useEffect(() => getAllUser(), [])
+
+
+  const { departSate: { departments }, getAllDepartments } = useContext(DepartmentContext)
+
+  React.useEffect(() => getAllDepartments(), [])
+
+  const { cateSate: { categories }, getAllCategories } = useContext(CategoryContext)
+  React.useEffect(() => getAllCategories(), [])
+
+
+
+
   return (
     <>
       <Paper elevation={8} sx={{ height: "auto", marginTop: 1 }}>
@@ -32,7 +49,7 @@ const Dashboard = () => {
               <Typography variant="h4" mb={2}>
                 Users
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4">{Users.length}</Typography>
             </Box>
             <Box
               sx={{
@@ -43,9 +60,9 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h4" mb={2}>
-                Users
+                Departments
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4"> {departments.length}</Typography>
             </Box>
             <Box
               sx={{
@@ -56,13 +73,13 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h4" mb={2}>
-                Users
+                Categories
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4">{categories.length}</Typography>
             </Box>
             <Box sx={{ width: "25%", textAlign: "center", color: "white" }}>
               <Typography variant="h4" mb={2}>
-                Users
+                Blogs
               </Typography>
               <Typography variant="h4">100</Typography>
             </Box>
@@ -70,18 +87,17 @@ const Dashboard = () => {
         </Box>
         <Box>
           <Typography variant="h4">Chart</Typography>
-          <Box display={"flex"} sx={{justifyContent: "space-between"}}>
-              <Box sx={{width: "45%"}}>
+          <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
+            <Box sx={{ width: "45%" }}>
+            </Box>
+            <Box sx={{ width: "45%" }}>
 
-            <BarChart />
-              </Box>
-              <Box sx={{width: "45%"}}>
 
-            <PieChart />
-              </Box>
+            </Box>
           </Box>
         </Box>
       </Paper>
+
     </>
   );
 };

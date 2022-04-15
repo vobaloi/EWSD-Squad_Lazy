@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,9 +18,10 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Tooltip, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+import { BlogContext } from "../../contexts/BlogContext";
 
+import { confirmAlert } from 'react-confirm-alert'
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -90,76 +91,22 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(department, category, description, image, file, status) {
-  return { department, category, description, image, file, status };
-}
 
-const rows = [
-  createData(
-    "Test",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Anonymous"
-  ),
-  createData(
-    "Test2",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Anonymous"
-  ),
-  createData(
-    "Test3",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Public"
-  ),
-  createData(
-    "Test4",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Anonymous"
-  ),
-  createData(
-    "Test5",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Public"
-  ),
-  createData(
-    "Test6",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Anonymous"
-  ),
-  createData(
-    "Test7",
-    "TestCate",
-    "Testing Description",
-    "Image",
-    "File upload",
-    "Anonymous"
-  ),
-].sort((a, b) => (a.department < b.department ? -1 : 1));
+
 
 const ManagementIdeas = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const [confirm, setConfirm] = React.useState(false);
+
+  //view all ideas
+  const { BlogState: { blogs }, getAllBlogs, DeleteBlog } = useContext(BlogContext)
+  React.useEffect(() => getAllBlogs(), [])
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - blogs.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -169,6 +116,32 @@ const ManagementIdeas = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const Delete = async (id) => {
+    confirmAlert({
+      title: 'Warning',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => DeleteConfirm(id)
+        },
+        {
+          label: 'No',
+          onClick: () => getAllBlogs()
+        }
+      ]
+    });
+  }
+  const DeleteConfirm = async (id) => {
+    const response = await DeleteBlog(id)
+    console.log("mes: ", response)
+    getAllBlogs()
+  }
+
+
+
+
   return (
     <Box>
       <Box>
@@ -180,43 +153,36 @@ const ManagementIdeas = () => {
             <TableRow sx={{ backgroundColor: "#33393994" }}>
               <TableCell>Department</TableCell>
               <TableCell align="left">Category</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Image</TableCell>
+              <TableCell align="left">Owner</TableCell>
+              <TableCell align="left">Content</TableCell>
               <TableCell align="center">File</TableCell>
-              <TableCell align="center">Status</TableCell>
               <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map((row) => (
-              <TableRow key={row.department}>
-                <TableCell component="th" scope="row">
-                  {row.department}
+              ? blogs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : blogs
+            ).map((data) => (
+              <TableRow key={data._id}>
+                <TableCell align="left">
+                  {data.department_details.name_department}
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.category}
+                <TableCell align="left"  >
+                  {data.category_details.name_category}
                 </TableCell>
-                <TableCell component="th" scope="row" align="center">
-                  {row.description}
+                <TableCell align="left"  >
+                  {data.creator.email}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="center">
-                  {row.image}
+                <TableCell align="left">
+                  <TextField disabled sx={{ width: '100%' }} value={data.content} />
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="center">
-                  {row.file}
+                <TableCell align="center">
+                  <img style={{ width: 50, height: 50 }} src={data.image_url} />
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="center">
-                  {row.status}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="center">
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton>
-                    <DeleteIcon />
+                <TableCell align="center">
+                  <IconButton onClick={() => Delete(data._id)}>
+                    <DeleteIcon fontSize="large" />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -231,7 +197,7 @@ const ManagementIdeas = () => {
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                count={rows.length}
+                count={blogs.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 SelectProps={{
