@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -78,6 +78,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function Navbar() {
   const navigate = useNavigate();
 
+  const [role, setRole] = useState("admin")
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -180,13 +181,16 @@ export default function Navbar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {mainNavbarItems.map((item, index) => (
-            <ListItem button key={item.id} onClick={() => navigate(item.route)}>
-              <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.label} />
-            </ListItem>
+
+          {role && mainNavbarItems.map((item, index) => (
+            role === item.roles[0] || role === item.roles[1] || role === item.roles[2] || role === item.roles[3] ?
+              <ListItem button key={item.id} onClick={() => navigate(item.route)}>
+                <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+              : null
           ))}
         </List>
         <ListItem
