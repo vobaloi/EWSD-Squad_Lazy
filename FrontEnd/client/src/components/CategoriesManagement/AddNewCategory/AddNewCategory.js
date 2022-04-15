@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Box, Button, TextareaAutosize, TextField, Typography, FormControl, NativeSelect, } from '@mui/material'
+import { Box, Button, TextareaAutosize, TextField, Grid, FormControl, NativeSelect, } from '@mui/material'
 import { DepartmentContext } from '../../../contexts/DepartmentContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,90 +50,146 @@ const AddNewCategory = () => {
 
     return (
         <>
+          <Box
+            component={Paper}
+            elevation={12}
+            padding={2}
+            sx={{ width: "70%", margin: "50px auto", textAlign: "center" }}
+          >
             <Box>
-                <Typography>Add new department</Typography>
+              <h1>Add New Category</h1>
             </Box>
-            <Box component={Paper} elevation={12} padding={2}>
-                <form onSubmit={onSubmit}>
-                    <Box display={'block'}>
-                        <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
-                            <Box mr={2} sx={{ width: '20%' }} >
-                                <Typography>Name:</Typography>
-                            </Box>
-                            <Box sx={{ width: '80%' }} >
-                                <TextField
-                                    value={name_category}
-                                    onChange={onChangeCateForm}
-                                    name='name_category'
-                                    fullWidth
-                                    placeholder='name category' />
-                            </Box>
-                        </Box>
-                        <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
-                            <Box mr={2} sx={{ width: '20%' }}  >
-                                <Typography>Department:</Typography>
-                            </Box>
-                            <Box sx={{ minWidth: 120 }}>
-                                <FormControl fullWidth>
-                                    <NativeSelect
-                                        onChange={onChangeCateForm}
-                                        value={name_depart}
-                                        name='name_depart'
-                                    >
-                                        <option>None</option>
-                                        {departments.map((data) => (
-                                            <option key={data._id}>{data.name_department}</option>
-                                        ))}
-
-                                    </NativeSelect>
-                                </FormControl>
-                            </Box>
-                        </Box>
-                        <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
-                            <Box mr={2} sx={{ width: '20%' }}  >
-                                <Typography>Start Day:</Typography>
-                            </Box>
-                            <Box sx={{ width: '80%' }} mt={1}>
-                                <TextareaAutosize
-                                    value={start_day}
-                                    onChange={onChangeCateForm}
-                                    name='start_day'
-                                    placeholder='start_day'
-                                    style={{ width: '100%', fontSize: 17 }}
-                                    minRows={3} />
-                            </Box>
-                        </Box>
-                        <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
-                            <Box mr={2} sx={{ width: '20%' }}  >
-                                <Typography>End Day:</Typography>
-                            </Box>
-                            <Box sx={{ width: '80%' }} mt={1}>
-                                <TextareaAutosize
-                                    value={end_day}
-                                    onChange={onChangeCateForm}
-                                    name='end_day'
-                                    placeholder='end_day'
-                                    style={{ width: '100%', fontSize: 17 }}
-                                    minRows={3} />
-                            </Box>
-                        </Box>
-                        <Box sx={{ textAlign: '-webkit-center' }} mt={1}>
-                            <Box display={'flex'} alignItems='center' width={'50%'} justifyContent='space-between'>
-                                <Box>
-                                    <Button sx={{ background: 'green' }} variant='contained' type="submit">Submit</Button>
-                                </Box>
-                                <Box>
-                                    <Button sx={{ background: 'red' }} variant='contained' >Cancel</Button>
-                                </Box>
-                            </Box>
-                        </Box>
-
+            <form onSubmit={onSubmit}>
+              <Box display={"block"}>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ width: "15%", marginLeft: 10, textAlign: "left" }}>
+                    <h3>Name Cate:</h3>
+                  </Box>
+                  <Box sx={{ width: "70%" }}>
+                    <TextField
+                      value={name_category}
+                      onChange={onChangeCateForm}
+                      name="name_category"
+                      sx={{ background: "white" }}
+                      fullWidth
+                      size="small"
+                      placeholder="Category Name"
+                    />
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ width: "15%", marginLeft: 10, textAlign: "left" }}>
+                    <h3>Department:</h3>
+                  </Box>
+                  <Box sx={{ minWidth: 120 }}>
+                    <FormControl fullWidth>
+                      <NativeSelect
+                        onChange={onChangeCateForm}
+                        value={name_depart}
+                        name="name_depart"
+                      >
+                        <option>None</option>
+                        {departments.map((data) => (
+                          <option key={data._id}>{data.name_department}</option>
+                        ))}
+                      </NativeSelect>
+                    </FormControl>
+                  </Box>
+                </Box>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    alignItems: "center",
+                  }}
+                >
+                  <Box display={"flex"} sx={{ width: "50%" }}>
+                    <Box sx={{ width: "30%", marginLeft: 10, textAlign: "left" }}>
+                      <h3>Start Day:</h3>
                     </Box>
-                </form>
-            </Box>
-
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <TextField
+                          type="date"
+                          value={start_day}
+                          onChange={onChangeCateForm}
+                          name="start_day"
+                          placeholder="start_day"
+                          style={{ fontSize: 17 }}
+                        />
+                      </FormControl>
+                    </Box>
+                  </Box>
+                  <Box display={"flex"} sx={{ width: "50%" }}>
+                    <Box sx={{ width: "30%", marginLeft: 10, textAlign: "left" }}>
+                      <h3>End Day:</h3>
+                    </Box>
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <TextField
+                          type="date"
+                          value={end_day}
+                          onChange={onChangeCateForm}
+                          name="end_day"
+                          placeholder="end_day"
+                          style={{ fontSize: 17 }}
+                        />
+                      </FormControl>
+                    </Box>
+                  </Box>
+                </Box>
+                <Grid sx={{ textAlign: "center" }}>
+                  <Box
+                    display={"flex"}
+                    sx={{
+                      mt: 5,
+                      mb: 5,
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Box sx={{ width: "50%" }}>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        sx={{
+                          ml: 9,
+                          height: 50,
+                          width: 120,
+                        }}
+                        type='submit'
+                      >
+                        Add
+                      </Button>
+                    </Box>
+                    <Box sx={{ width: "50%" }}>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          height: 50,
+                          width: 120,
+                        }}
+                        onClick={() => navigate('/home/categories')}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Box>
+            </form>
+          </Box>
         </>
-    )
+      );
 }
 
 export default AddNewCategory

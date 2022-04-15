@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { DepartmentContext } from '../../contexts/DepartmentContext'
 import { CategoryContext } from "../../contexts/CategoryContext";
+import PieChart from "./PieChart";
+import BarChart from "./BarChart";
 
 
 import Typography from "@mui/material/Typography";
@@ -89,10 +91,10 @@ const Dashboard = () => {
           <Typography variant="h4">Chart</Typography>
           <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
             <Box sx={{ width: "45%" }}>
+              <PieChart />
             </Box>
             <Box sx={{ width: "45%" }}>
-
-
+              <BarChart />
             </Box>
           </Box>
         </Box>
