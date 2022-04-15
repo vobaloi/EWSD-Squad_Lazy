@@ -6,6 +6,8 @@ import {
   FormControl,
   NativeSelect,
   Grid,
+  TextareaAutosize,
+  Typography
 } from "@mui/material";
 import { DepartmentContext } from "../../../contexts/DepartmentContext";
 import { useNavigate } from "react-router-dom";
@@ -134,86 +136,7 @@ const AddNewCategory = () => {
           </Box>
         </form>
       </Box>
-      <Box
-        display={"flex"}
-        sx={{
-          alignItems: "center",
-        }}
-      >
-        <Box display={"flex"} sx={{ width: "50%" }}>
-          <Box sx={{ width: "30%", marginLeft: 10, textAlign: "left" }}>
-            <h3>Start Day:</h3>
-          </Box>
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <TextField
-                type="date"
-                value={start_day}
-                onChange={onChangeCateForm}
-                name="start_day"
-                placeholder="start_day"
-                style={{ fontSize: 17 }}
-              />
-            </FormControl>
-          </Box>
-        </Box>
-        <Box display={"flex"} sx={{ width: "50%" }}>
-          <Box sx={{ width: "30%", marginLeft: 10, textAlign: "left" }}>
-            <h3>End Day:</h3>
-          </Box>
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <TextField
-                type="date"
-                value={end_day}
-                onChange={onChangeCateForm}
-                name="end_day"
-                placeholder="end_day"
-                style={{ fontSize: 17 }}
-              />
-            </FormControl>
-          </Box>
-        </Box>
-      </Box>
-      <Grid sx={{ textAlign: "center" }}>
-        <Box
-          display={"flex"}
-          sx={{
-            mt: 5,
-            mb: 5,
-            justifyContent: "space-between",
-          }}
-        >
-          <Box sx={{ width: "50%" }}>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{
-                ml: 9,
-                height: 50,
-                width: 120,
-              }}
-            >
-              Add
-            </Button>
-          </Box>
-          <Box sx={{ width: "50%" }}>
-            <Button
-              variant="contained"
-              color="error"
-              sx={{
-                height: 50,
-                width: 120,
-              }}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Box>
-      </Grid>
-    </Box>
-        </form >
-      </Box >
+      
     </>
   );
 };
