@@ -3,6 +3,7 @@ import {
   Grid,
   Button,
   Typography,
+  Container,
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import * as React from "react";
@@ -10,10 +11,8 @@ import * as React from "react";
 const SettingProfiles = () => {
     const navigate = useNavigate()
   return (
-    <Grid
+    <Container
       sx={{
-        width: "80%",
-        height: 600,
         margin: "50px auto",
         textAlign: "center",
       }}
@@ -27,7 +26,7 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left" }}>
+        <Box sx={{ width: "15%", textAlign: "left", minWidth:120}}>
           <h3>Username:</h3>
         </Box>
         <Box sx={{ width: "20%", textAlign: "left" }}>
@@ -43,7 +42,7 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left" }}>
+        <Box sx={{ width: "15%", textAlign: "left",  minWidth:120 }}>
           <h3>Email:</h3>
         </Box>
         <Box sx={{ width: "20%", textAlign: "left" }}>
@@ -59,7 +58,7 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left" }}>
+        <Box sx={{ width: "15%", textAlign: "left", minWidth:120 }}>
           <h3>Password:</h3>
         </Box>
           <Box sx={{ width: "20%", textAlign: "left" }}>
@@ -80,7 +79,7 @@ const SettingProfiles = () => {
           Update
         </Button>
       </Box>
-    </Grid>
+    </Container>
   );
 };
 

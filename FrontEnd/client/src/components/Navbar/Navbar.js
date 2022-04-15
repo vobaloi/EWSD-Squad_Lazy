@@ -24,6 +24,7 @@ import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { makeStyles } from "@material-ui/core";
 
 //context
 import { AuthContext } from '../../contexts/AuthContext';
@@ -75,6 +76,30 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+const useStyles = makeStyles((theme) => ({
+  searchBtn: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  profileText: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+
+  notifyBtn: {
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 0,
+    },
+  },
+  addIdeaBtn: {
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 1,
+    },
+  },
+}));
+
 export default function Navbar() {
   const navigate = useNavigate();
 
@@ -95,7 +120,7 @@ export default function Navbar() {
     setOpen(false);
   };
 
-
+  const classes = useStyles();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -119,8 +144,8 @@ export default function Navbar() {
             GREENWICH
           </Typography>
 
-          <Box display={"flex"} sx={{ marginLeft: "auto" }}>
-            <Box sx={{ width: "50ch" }}>
+          <Box display={"flex"} sx={{ marginLeft: "auto", justifyContent:"center" }}>
+            <Box sx={{ width: "50ch", mr:10, }} className={classes.searchBtn}>
               <TextField
                 placeholder="Search..."
                 fullWidth
@@ -129,21 +154,21 @@ export default function Navbar() {
               />
             </Box>
 
-            <IconButton onClick={() => { }} sx={{ mr: 10, marginLeft: 5 }}>
+            <IconButton onClick={() => {}} sx={{mr:3}} className={classes.addIdeaBtn}>
               <AddCircleIcon sx={{ color: "white" }} />
             </IconButton>
 
-            <IconButton onClick={() => { }} sx={{ mr: 10, marginLeft: "auto" }}>
+            <IconButton onClick={() => {}} sx={{mr:3}} className={classes.notifyBtn}>
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon sx={{ color: "white" }} />
               </Badge>
             </IconButton>
 
-            <Box marginLeft={"auto"}>
+            <Box className={classes.profileAvatar}>
               <Avatar alt="Remy Sharp" src="/" />
             </Box>
             {authLoading ?
-              <Box marginLeft={2}>
+              <Box className={classes.profileText} sx={{ ml: 1 }}>
                 <Typography ></Typography>
                 <Typography></Typography>
               </Box> : <Box marginLeft={2}>
