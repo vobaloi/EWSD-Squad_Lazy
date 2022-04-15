@@ -4,11 +4,9 @@ const schema = new mongoose.Schema(
   {
     email: String,
     password: String,
-    name: String,
-    role: {
-      type: String,
-      default: "user",
-    },
+    username: String,
+    role: String,
+
     // profile_image: { type: String, default: "" },
     // profession: { type: String, default: "" },
   },
