@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 import { authReducer } from "../reducers/authReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import setAuthToken from "../utils/setAuthToken";
 import axios from "axios";
 
 
@@ -11,16 +12,25 @@ const AuthContextProvider = ({ children }) => {
         authLoading: true,
         isAuthenticated: false,
         user: null,
-        Users: []
+        role: null,
+        Users: [],
+        accessToken: ''
     })
 
     //login
     const loginUser = async userForm => {
         try {
             const response = await axios.post(`${apiUrl}/auth/login`, userForm)
-            console.log("data", response.data.data.role)
-            if (response.data.success)
-                localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
+            console.log("data", response.data.data.email)
+            if (response.data.token)
+                localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.token)
+
+            if (response.data.data.email) {
+                dispatch({
+                    type: 'SET_AUTH',
+                    payload: { user: response.data.data.email, role: response.data.data.role }
+                })
+            }
             return response.data
         } catch (error) {
             if (error.response.data)
@@ -28,6 +38,25 @@ const AuthContextProvider = ({ children }) => {
             else return { success: false, message: error.message }
         }
     }
+
+    // const loadUser = async () => {
+    //     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
+    //         setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+    //     }
+    //     try {
+    //         const response = await axios.get(`${apiUrl}/auth/users`)
+    //         console.log("load user response", response.data.users.email)
+
+    //     } catch (error) {
+    //         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+    //         setAuthToken(null)
+    //         dispatch({
+    //             type: 'SET_AUTH',
+    //             payload: { isAuthenticated: false, user: null }
+    //         })
+    //     }
+
+    // }
 
     const getAllUser = async () => {
         try {

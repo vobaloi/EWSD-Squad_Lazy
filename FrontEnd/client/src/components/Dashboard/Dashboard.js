@@ -1,5 +1,5 @@
 import { Paper, Box } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { DepartmentContext } from '../../contexts/DepartmentContext'
 import { CategoryContext } from "../../contexts/CategoryContext";
@@ -19,6 +19,7 @@ const Dashboard = () => {
 
   const { cateSate: { categories }, getAllCategories } = useContext(CategoryContext)
   React.useEffect(() => getAllCategories(), [])
+
 
 
 
@@ -96,6 +97,7 @@ const Dashboard = () => {
           </Box>
         </Box>
       </Paper>
+
     </>
   );
 };
