@@ -62,31 +62,25 @@ const WriteIdea = () => {
         formData.append('category', ideaForm.category);
         formData.append('content', ideaForm.content);
         formData.append('image', ideaForm.image);
-
-
-        console.log("data submit", ideaForm)
-
-        const DataIdea = addNewBlog(formData)
-        console.log("after submit", DataIdea)
-        navigate('/home/view-ideas')
-        // if (!ideaForm.category) {
-        //     alert("You need to select name of your category")
-
-        // }
-        // if (!ideaForm.department) {
-        //     alert("You need to select name of your department")
-
-        // } if (ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe') {
-        //     alert("files is not accept")
-
-        // }
+        if (!ideaForm.category) {
+            alert("You need to select name of your category")
+        } else
+            if (!ideaForm.department) {
+                alert("You need to select name of your department")
+            } else if (ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe') {
+                alert("File is not accept")
+            } else if (!ideaForm.file) {
+                alert("You need to select a file")
+            } else {
+                addNewBlog(formData)
+                navigate('/home/view-ideas')
+            }
     }
 
 
     const navigate = useNavigate()
     return (
         <>
-
             <Box sx={{ textAlign: '-webkit-center' }} >
                 <Box component={Paper} elevation={12} width="60%" border={2} sx={{ mt: 5, borderRadius: 4, p: 2 }} display={"block"} >
                     <Grid display={'flex'} sx={{ alignItems: 'center', mb: 5, paddingLeft: 3, justifyContent: 'space-between' }}>
@@ -119,7 +113,6 @@ const WriteIdea = () => {
                                 onChange={onChangeIdeaForm}
                                 value={ideaForm.category}
                                 name="category">
-
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
@@ -150,35 +143,26 @@ const WriteIdea = () => {
                             <Typography variant='h6' mr={4} fontWeight={800}>Upload file:</Typography>
                         </Box>
                         <Input onChange={onChangeImageForm} type="file" />
-
-                        {/* {ideaForm.image.substring(ideaForm.image.length - 3, ideaForm.image.length) === 'exe' ? <FormHelperText>Not accept files .exe</FormHelperText> : null} */}
                     </Grid>
                     <Grid display={'flex'} sx={{ alignItems: 'center', paddingLeft: 3, justifyContent: 'space-between' }}>
                         <Box>
                             <Checkbox checked={termAgree} onClick={() => changeStateTerm()} /> <Link to={'/'}> Terms Agree</Link>
                         </Box>
                         <Box display={"flex"} alignItems="center">
-
                             <Checkbox checked={anonymous} onClick={() => changeStateAnonymous()} /> <Typography>Anonymous</Typography>
                         </Box>
-
                     </Grid>
                     <Divider />
-
                     <Grid display={'flex'} sx={{ mt: 2, alignItems: 'center', paddingLeft: 3, justifyContent: 'space-between' }}>
-
                         <Button disabled={disabled} onClick={() => DataSubmit()} sx={{ background: 'green' }} variant='contained' size='large'>
                             Submit
                         </Button>
-
                         <Button sx={{ background: 'red' }} variant='contained' size='large'>
                             Cancel
                         </Button>
                     </Grid>
                 </Box>
             </Box>
-
-
         </>
     )
 }

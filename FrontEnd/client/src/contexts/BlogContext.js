@@ -13,7 +13,7 @@ const BlogContextProvider = ({ children }) => {
         blogs_by_cate: []
     })
 
-    //Get all departments
+    //Get all blogs
     const getAllBlogs = async () => {
         try {
 

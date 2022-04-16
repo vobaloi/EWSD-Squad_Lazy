@@ -31,21 +31,11 @@ const ViewIdeas = () => {
     const { BlogState: { blogs }, getAllBlogs } = useContext(BlogContext)
     React.useEffect(() => getAllBlogs(), [])
 
-    const { CommentState: { Comments, commentLoading }, addNewComment, getCommentByBlogId, blog_like } = useContext(CommentContext)
+    const { CommentState: { Comments }, addNewComment, getCommentByBlogId, blog_like } = useContext(CommentContext)
 
 
 
     const changeValueThumpUp = async (id) => {
-        // if (changeValueThumpUp) {
-        //     setValueThumpUp(valueThum_Up + 1)
-        //     setStateThumUp(!stateThumUp)
-        //     setStateThumDown(false)
-        //     setValueThumpDown(valueThum_Down - 1)
-        //     if (valueThum_Down <= 0) {
-        //         setValueThumpDown(0)
-        //     }
-        //     if (stateThumUp && changeValueThumpUp) { setValueThumpUp(valueThum_Up - 1) }
-        // }
         const response = await blog_like(id)
         console.log("like", response)
         setStateThumUp(!stateThumUp)
@@ -130,12 +120,6 @@ const ViewIdeas = () => {
                                         </IconButton>
                                         {valueThum_Up < 0 ? <Typography>0</Typography> : <Typography>{oneblog.likes_count}</Typography>}
                                     </Box>
-                                    {/* <Box alignItems={'center'} display={"flex"}>
-                                        <IconButton onClick={() => changeValueThumpDown()}>
-                                            {!stateThumDown ? <ThumbDownIcon fontSize='large' /> : <ThumbDownIcon sx={{ color: 'blue' }} fontSize='large' />}
-                                        </IconButton>
-                                        {valueThum_Down < 0 ? <Typography>0</Typography> : <Typography>{valueThum_Down}</Typography>}
-                                    </Box> */}
                                     <Box alignItems={'center'} display={"flex"}>
                                         <CommentIcon fontSize='large' onClick={() => showInputComment(oneblog._id)} />
                                         <Typography>{oneblog.comments_count}</Typography>
