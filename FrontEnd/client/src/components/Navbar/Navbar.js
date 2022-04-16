@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const [role, setRole] = useState("admin")
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -111,7 +111,7 @@ export default function Navbar() {
   const { authState: { user, authLoading } } = useContext(AuthContext)
   // React.useEffect(() => loadUser(), [])
   console.log("user", user)
-
+  const [role, setRole] = useState(user.role)
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -144,8 +144,8 @@ export default function Navbar() {
             GREENWICH
           </Typography>
 
-          <Box display={"flex"} sx={{ marginLeft: "auto", justifyContent:"center" }}>
-            <Box sx={{ width: "50ch", mr:10, }} className={classes.searchBtn}>
+          <Box display={"flex"} sx={{ marginLeft: "auto", justifyContent: "center" }}>
+            <Box sx={{ width: "50ch", mr: 10, }} className={classes.searchBtn}>
               <TextField
                 placeholder="Search..."
                 fullWidth
@@ -154,11 +154,11 @@ export default function Navbar() {
               />
             </Box>
 
-            <IconButton onClick={() => {}} sx={{mr:3}} className={classes.addIdeaBtn}>
+            <IconButton onClick={() => navigate('/home/write-idea')} sx={{ mr: 3 }} className={classes.addIdeaBtn}>
               <AddCircleIcon sx={{ color: "white" }} />
             </IconButton>
 
-            <IconButton onClick={() => {}} sx={{mr:3}} className={classes.notifyBtn}>
+            <IconButton onClick={() => { }} sx={{ mr: 3 }} className={classes.notifyBtn}>
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon sx={{ color: "white" }} />
               </Badge>
@@ -220,7 +220,7 @@ export default function Navbar() {
         </List>
         <ListItem
           button
-          onClick={() => navigate("/login")}
+          onClick={() => navigate("/")}
           sx={{ marginTop: -1 }}
         >
           <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>

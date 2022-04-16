@@ -20,6 +20,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Avatar, Tooltip, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { confirmAlert } from 'react-confirm-alert';
 
 //context 
 import { AuthContext } from '../../contexts/AuthContext';
@@ -89,7 +90,7 @@ TablePaginationActions.propTypes = {
 };
 
 export default function ManagementUser() {
-    const { authState: { Users }, getAllUser } = useContext(AuthContext)
+    const { authState: { Users }, getAllUser, deleteUser } = useContext(AuthContext)
     useEffect(() => getAllUser(), [])
 
     const [page, setPage] = useState(0);
@@ -108,6 +109,28 @@ export default function ManagementUser() {
         setPage(0);
     };
     const navigate = useNavigate()
+
+    const Delete = async (id) => {
+        confirmAlert({
+            title: 'Warning',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => DeleteConfirm(id)
+                },
+                {
+                    label: 'No',
+                    onClick: () => getAllUser()
+                }
+            ]
+        });
+    }
+    const DeleteConfirm = async (id) => {
+        const response = await deleteUser(id)
+        console.log("mes: ", response)
+        getAllUser()
+    }
     return (
         <Box>
             <Box >
@@ -133,6 +156,7 @@ export default function ManagementUser() {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Email</TableCell>
+                            <TableCell align="left">UserName</TableCell>
                             <TableCell align="left">Avatar</TableCell>
                             <TableCell align="center">Role</TableCell>
                             <TableCell align="center">Status</TableCell>
@@ -149,6 +173,9 @@ export default function ManagementUser() {
                                     {data.email}
                                 </TableCell>
                                 <TableCell align="left">
+                                    {data.username}
+                                </TableCell>
+                                <TableCell align="left">
                                     <Avatar />
                                 </TableCell>
                                 <TableCell align='center' >
@@ -161,7 +188,7 @@ export default function ManagementUser() {
                                     <IconButton onClick={() => navigate('/home/update-user')} >
                                         <EditIcon fontSize='large' />
                                     </IconButton>
-                                    <IconButton >
+                                    <IconButton onClick={() => Delete(data._id)} >
                                         <DeleteIcon fontSize='large' />
                                     </IconButton>
                                 </TableCell>

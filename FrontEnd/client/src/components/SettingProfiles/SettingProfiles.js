@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import * as React from "react";
 
 const SettingProfiles = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   return (
     <Container
       sx={{
@@ -26,7 +26,7 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left", minWidth:120}}>
+        <Box sx={{ width: "15%", textAlign: "left", minWidth: 120 }}>
           <h3>Username:</h3>
         </Box>
         <Box sx={{ width: "20%", textAlign: "left" }}>
@@ -42,7 +42,7 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left",  minWidth:120 }}>
+        <Box sx={{ width: "15%", textAlign: "left", minWidth: 120 }}>
           <h3>Email:</h3>
         </Box>
         <Box sx={{ width: "20%", textAlign: "left" }}>
@@ -58,13 +58,13 @@ const SettingProfiles = () => {
           justifyContent: "center",
         }}
       >
-        <Box sx={{ width: "15%", textAlign: "left", minWidth:120 }}>
+        <Box sx={{ width: "15%", textAlign: "left", minWidth: 120 }}>
           <h3>Password:</h3>
         </Box>
-          <Box sx={{ width: "20%", textAlign: "left" }}>
-            <Typography sx={{ background: "white" }} fullWidth size="small" />{" "}
-            ************
-          </Box>
+        <Box sx={{ width: "20%", textAlign: "left" }}>
+          <Typography sx={{ background: "white" }} fullWidth size="small" />{" "}
+          ************
+        </Box>
       </Box>
       <Box sx={{ mt: 5 }}>
         <Button
@@ -74,7 +74,7 @@ const SettingProfiles = () => {
             height: 50,
             width: 120,
           }}
-          onClick={() => navigate('/home/updateprofile')}
+          onClick={() => navigate('/home/update-profile')}
         >
           Update
         </Button>

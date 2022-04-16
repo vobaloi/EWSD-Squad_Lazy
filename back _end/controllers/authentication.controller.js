@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
     email: "required|email|unique:Account,email",
     password: "required",
     username: "required",
-    role: "required|",
+    role: "required",
   });
 
   const matched = await v.check();
@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       username: req.body.username,
-      username: req.body.role,
+      role: req.body.role,
     });
 
     let userData = await newUser.save();

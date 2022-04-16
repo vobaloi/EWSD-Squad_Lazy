@@ -41,7 +41,7 @@ const UpdateUser = () => {
           <h3>Username:</h3>
         </Box>
         <Box sx={{ width: "70%" }}>
-          <TextField sx={{ background: "white" }} fullWidth size="small" />
+          <TextField sx={{ background: "white" }} defaultValue='GREENWICH_CAdjfadA' fullWidth size="small" />
         </Box>
       </Box>
       <Box
@@ -54,7 +54,7 @@ const UpdateUser = () => {
           <h3>Email:</h3>
         </Box>
         <Box sx={{ width: "70%" }}>
-          <TextField sx={{ background: "white", opacity: "0.7" }} fullWidth size="small" disabled />
+          <TextField sx={{ background: "white", opacity: "0.7" }} defaultValue={"vobaloi2k@gmail.com"} fullWidth size="small" disabled />
         </Box>
       </Box>
       <Box
@@ -70,6 +70,7 @@ const UpdateUser = () => {
           <TextField
             sx={{ background: "white" }}
             fullWidth
+            defaultValue={"*************"}
             size="small"
             type={"password"}
           />
@@ -81,16 +82,13 @@ const UpdateUser = () => {
         </Box>
         <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               value={role}
-              label="Role"
               sx={{ background: 'white' }}
               onChange={handleChange}
             >
-              <MenuItem>Admin</MenuItem>
+              <MenuItem><em>None</em></MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
               <MenuItem>Manager</MenuItem>
               <MenuItem>Coordinator</MenuItem>
               <MenuItem>Staff</MenuItem>

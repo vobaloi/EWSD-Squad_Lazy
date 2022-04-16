@@ -4,7 +4,8 @@ export const CommentReducer = (state, action) => {
         case 'COMMENTS_LOAD_SUCCESS':
             return {
                 ...state,
-                comments: payload,
+                Comments: payload,
+                commentLoading: false
             }
         case 'COMMENTS_LOAD_FAIL':
             return {

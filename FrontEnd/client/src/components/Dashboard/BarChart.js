@@ -10,13 +10,11 @@ import {
 import { Animation } from '@devexpress/dx-react-chart';
 
 const data = [
-  { year: '1950', population: 2.525 },
-  { year: '1960', population: 3.018 },
-  { year: '1970', population: 3.682 },
-  { year: '1980', population: 4.440 },
-  { year: '1990', population: 5.310 },
-  { year: '2000', population: 6.127 },
-  { year: '2010', population: 6.930 },
+  { year: 'Blog 1', population: 2 },
+  { year: 'Blog 2', population: 3 },
+  { year: 'Blog 3', population: 3 },
+  { year: 'Blog 4', population: 4 },
+
 ];
 
 export default class BarChart extends React.PureComponent {
@@ -43,7 +41,7 @@ export default class BarChart extends React.PureComponent {
             valueField="population"
             argumentField="year"
           />
-          <Title text="World population" />
+          <Title text="Top blogs was liked" />
           <Animation />
         </Chart>
       </Paper>

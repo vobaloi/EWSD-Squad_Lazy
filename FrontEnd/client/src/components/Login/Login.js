@@ -60,9 +60,13 @@ function Login() {
     try {
       const LoginData = await loginUser(loginForm);
       console.log('data login', LoginData)
-      if (LoginData.data) {
+      if (LoginData.data.role !== "Staff") {
         return navigate('/home/dashboard')
-      } else {
+      }
+      else if (LoginData.data.role === "Staff") {
+        return navigate('/home/view-ideas')
+      }
+      else {
         return alert('Email or password incorrect!')
       }
     } catch (error) {

@@ -9,7 +9,8 @@ const CommentContextProvider = ({ children }) => {
     const [CommentState, dispatch] = useReducer(CommentReducer, {
         Comments: [],
         Comment: '',
-        Comments_by_user: []
+        Comments_by_user: [],
+        commentLoading: true
     })
 
     //Get all comments
@@ -44,9 +45,13 @@ const CommentContextProvider = ({ children }) => {
     }
 
     //get a Comment by category id
-    const getCommentByCateId = async (_id) => {
-        const response = await axios.get(`${apiUrl}`)
-        console.log("Comment by cate: ", response)
+    const getCommentByBlogId = async (_id) => {
+        const response = await axios.get(`${apiUrl}/blogs/` + _id + `/comments`)
+        console.log("Comment by blog: ", response.data.data.comments)
+        if (response.data.data.comments) {
+            dispatch({ type: 'COMMENTS_LOAD_SUCCESS', payload: response.data.data.comments })
+        }
+
     }
 
     const DeleteComment = async (_id) => {
@@ -61,7 +66,19 @@ const CommentContextProvider = ({ children }) => {
         return response.data
     }
 
-    const CommentContextData = { CommentState, getAllComments, addNewComment, getCommentByCateId, DeleteComment }
+    const blog_like = async (id) => {
+        let token = localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)
+        console.log("token : ", token)
+        const response = await axios.post(`${apiUrl}/blogs/` + id + `/toggle_like`, {}, {
+
+            headers: {
+                "Authorization": token
+            }
+        })
+        console.log("blog like: ", response.data)
+    }
+
+    const CommentContextData = { CommentState, getAllComments, addNewComment, getCommentByBlogId, DeleteComment, blog_like }
 
     return (
         <CommentContext.Provider value={CommentContextData} >

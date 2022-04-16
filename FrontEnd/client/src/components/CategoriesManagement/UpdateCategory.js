@@ -18,8 +18,8 @@ const UpdateCategory = () => {
     departSate: { departments },
     getAllDepartments,
   } = useContext(DepartmentContext);
-  const { updateCate } = useContext(CategoryContext);
   React.useEffect(() => getAllDepartments(), []);
+  const { updateCate } = useContext(CategoryContext);
   const [CateForm, setCateForm] = useState({
     name_category: "",
     name_depart: "",
@@ -41,9 +41,9 @@ const UpdateCategory = () => {
     try {
       const NewCateData = await updateCate(params.id, CateForm);
       console.log("new-data", NewCateData);
-      // if (NewCateData) {
-      //   return navigate("/home/categories");
-      // }
+      if (NewCateData) {
+        return navigate("/home/categories");
+      }
     } catch (error) {
       console.log(error);
     }

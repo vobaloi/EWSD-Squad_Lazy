@@ -19,21 +19,21 @@ export const mainNavbarItems = [
         icon: <DashboardIcon />,
         label: 'Dashboard',
         route: 'dashboard',
-        roles: ["admin", "QA", "Coordinator"]
+        roles: ["Admin", "QA", "Coordinator"]
     },
     {
         id: 2,
         icon: <DesktopWindowsIcon />,
         label: 'View Ideas',
         route: 'view-ideas',
-        roles: ["admin", "QA", "Coordinator", "user"]
+        roles: ["Admin", "QA", "Coordinator", "Staff"]
     },
     {
         id: 3,
         icon: <CreateIcon />,
         label: 'Write Ideas',
         route: 'write-idea',
-        roles: ["admin", "QA", "Coordinator", "user"]
+        roles: ["Admin", "QA", "Coordinator", "Staff"]
     },
 
     {
@@ -41,36 +41,36 @@ export const mainNavbarItems = [
         icon: <PersonIcon />,
         label: 'Management Users',
         route: 'management-users',
-        roles: ["admin", "QA"]
+        roles: ["Admin", "QA"]
     },
     {
         id: 5,
         icon: <TipsAndUpdatesIcon />,
         label: 'Management Ideas',
         route: 'management-ideas',
-        roles: ["admin", "Coordinator"]
+        roles: ["Admin", "Coordinator"]
     },
     {
         id: 6,
         icon: <SettingsIcon />,
         label: 'Department',
         route: 'departments',
-        roles: ["admin", "QA"]
+        roles: ["Admin", "QA"]
     },
     {
         id: 7,
         icon: <SettingsIcon />,
         label: 'Categories',
         route: 'categories',
-        roles: ["admin", "QA", "Coordinator"]
+        roles: ["Admin", "QA", "Coordinator"]
     },
-    {
-        id: 8,
-        icon: <SettingsIcon />,
-        label: 'Setting',
-        route: 'setting-profiles',
-        roles: ["admin", "QA", "Coordinator", "user"]
-    },
+    // {
+    //     id: 8,
+    //     icon: <SettingsIcon />,
+    //     label: 'Setting',
+    //     route: 'setting-profiles',
+    //     roles: ["Admin", "QA", "Coordinator", "Staff"]
+    // },
 
 
 ]

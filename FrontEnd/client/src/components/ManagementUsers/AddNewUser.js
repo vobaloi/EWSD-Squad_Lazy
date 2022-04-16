@@ -2,23 +2,27 @@ import {
   Box,
   Grid,
   TextField,
-  InputLabel,
   Select,
   MenuItem,
   FormControl,
   Button,
 } from "@mui/material";
-import * as React from "react";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const AddNewUser = () => {
-  const [role, setRole] = React.useState("");
-  const [AccoutForm, setAccountForm] = React.useState({
-    username: makeUserName(10)
-  })
+  const { register } = useContext(AuthContext)
 
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
+  const [AccountForm, setAccountForm] = React.useState({
+    username: makeUserName(10),
+    email: '',
+    password: '',
+    role: ''
+  })
+  const navigate = useNavigate()
+  const handleChangeAccountForm = (event) => { setAccountForm({ ...AccountForm, [event.target.name]: event.target.value }) }
+
   function makeUserName(length) {
     var result = 'GREENWICH_';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -30,11 +34,12 @@ const AddNewUser = () => {
     return result;
   }
 
-  const { username } = AccoutForm
+  const { username, email, password, role } = AccountForm
 
-  const onSubmit = () => {
-
-    console.log("submit", AccoutForm.username)
+  const onSubmit = async () => {
+    const response = await register(AccountForm)
+    console.log("response", response)
+    navigate('/home/management-users')
   }
   return (
     <Grid
@@ -59,7 +64,7 @@ const AddNewUser = () => {
           <h3>Username:</h3>
         </Box>
         <Box sx={{ width: "70%" }}>
-          <TextField value={username} disabled sx={{ background: "white" }} fullWidth size="small" />
+          <TextField value={username} name='username' disabled sx={{ background: "white" }} fullWidth size="small" />
         </Box>
       </Box>
       <Box
@@ -72,7 +77,8 @@ const AddNewUser = () => {
           <h3>Email:</h3>
         </Box>
         <Box sx={{ width: "70%" }}>
-          <TextField sx={{ background: "white" }} fullWidth size="small" />
+          <TextField sx={{ background: "white" }} value={email} name='email' fullWidth size="small"
+            onChange={handleChangeAccountForm} />
         </Box>
       </Box>
       <Box
@@ -87,9 +93,12 @@ const AddNewUser = () => {
         <Box sx={{ width: "70%" }}>
           <TextField
             sx={{ background: "white" }}
+            value={password}
+            name="password"
             fullWidth
             size="small"
             type={"password"}
+            onChange={handleChangeAccountForm}
           />
         </Box>
       </Box>
@@ -99,19 +108,18 @@ const AddNewUser = () => {
         </Box>
         <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Role</InputLabel>
+
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={role}
-              label="Role"
+              value={AccountForm.role}
+              name='role'
               sx={{ background: "white" }}
-              onChange={handleChange}
+              onChange={handleChangeAccountForm}
             >
-              <MenuItem>Admin</MenuItem>
-              <MenuItem>Manager</MenuItem>
-              <MenuItem>Coordinator</MenuItem>
-              <MenuItem>Staff</MenuItem>
+              <MenuItem value=""><em>None</em></MenuItem>
+              <MenuItem value="Admin">Admin</MenuItem>
+              <MenuItem value="QA">Manager</MenuItem>
+              <MenuItem value="Coordinator">Coordinator</MenuItem>
+              <MenuItem value="Staff">Staff</MenuItem>
             </Select>
           </FormControl>
         </Box>

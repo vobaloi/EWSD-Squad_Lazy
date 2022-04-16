@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { DepartmentContext } from '../../contexts/DepartmentContext'
 import { CategoryContext } from "../../contexts/CategoryContext";
+import { BlogContext } from "../../contexts/BlogContext";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
 
@@ -14,13 +15,14 @@ const Dashboard = () => {
   const { authState: { Users }, getAllUser } = useContext(AuthContext)
   React.useEffect(() => getAllUser(), [])
 
-
   const { departSate: { departments }, getAllDepartments } = useContext(DepartmentContext)
 
   React.useEffect(() => getAllDepartments(), [])
 
   const { cateSate: { categories }, getAllCategories } = useContext(CategoryContext)
   React.useEffect(() => getAllCategories(), [])
+  const { BlogState: { blogs }, getAllBlogs } = useContext(BlogContext)
+  React.useEffect(() => getAllBlogs(), [])
 
 
 
@@ -83,7 +85,7 @@ const Dashboard = () => {
               <Typography variant="h4" mb={2}>
                 Blogs
               </Typography>
-              <Typography variant="h4">100</Typography>
+              <Typography variant="h4">{blogs.length}</Typography>
             </Box>
           </Box>
         </Box>

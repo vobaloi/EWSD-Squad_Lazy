@@ -56,7 +56,6 @@ const UpdateDepart = () => {
                 <Typography>Update department</Typography>
             </Box>
             <Box component={Paper} elevation={12} padding={2}>
-
                 <form onSubmit={onSubmit} >
                     <Box display={'block'}>
                         <Box display={'flex'} sx={{ width: '100%' }} alignItems='center'>
@@ -102,9 +101,7 @@ const UpdateDepart = () => {
                                     >
                                         {Users.map((data) => (
                                             <option key={data._id}>{data.email}</option>
-
                                         ))}
-
                                     </NativeSelect>
                                 </FormControl>
                             </Box>
@@ -119,12 +116,9 @@ const UpdateDepart = () => {
                                 </Box>
                             </Box>
                         </Box>
-
                     </Box>
                 </form>
-
             </Box>
-
         </>
     )
 }

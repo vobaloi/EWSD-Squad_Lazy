@@ -52,7 +52,7 @@ ReactDOM.render(
               <CommentContextProvider>
                 <Routes>
                   <Route path="/" element={<App />} />
-                  <Route path="login" element={<Login />} />
+                  {/* <Route path="login" element={<Login />} /> */}
                   <Route path="/" element={<ProtectedRoutes />}>
                     <Route path="home" element={<HomePage />}>
                       <Route

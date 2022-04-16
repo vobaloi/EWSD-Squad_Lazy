@@ -144,19 +144,19 @@ const ManagementIdeas = () => {
 
   return (
     <Box>
-      <Box>
+      <Box mb={1}>
         <Typography variant="h4">Ideas Management</Typography>
       </Box>
       <TableContainer component={Paper} elevation={12}>
         <Table sx={{}} aria-label="custom pagination table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#33393994" }}>
-              <TableCell>Department</TableCell>
-              <TableCell align="left">Category</TableCell>
-              <TableCell align="left">Owner</TableCell>
-              <TableCell align="left">Content</TableCell>
-              <TableCell align="center">File</TableCell>
-              <TableCell align="center">Action</TableCell>
+            <TableRow>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }}>Department</TableCell>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">Category</TableCell>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">Owner</TableCell>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">Content</TableCell>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="center">File</TableCell>
+              <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -144,7 +144,6 @@ export default function Department() {
         //         },
         //     ]
         // });
-
         if (removeDepartment) {
             alert("Detele deparment " + nameDepart)
             const message = await deleteDepart(_id)
@@ -182,7 +181,6 @@ export default function Department() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-
                         {(rowsPerPage > 0
                             ? departments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : departments
@@ -206,10 +204,7 @@ export default function Department() {
                             <TableRow style={{ height: 53 * emptyRows }}>
                                 <TableCell colSpan={6} />
                             </TableRow>
-
                         )}
-
-
                     </TableBody>
                     <TableFooter>
                         <TableRow>

@@ -22,12 +22,6 @@ const WriteIdea = () => {
 
     const { BlogState: { blogs }, addNewBlog } = useContext(BlogContext)
 
-
-
-
-
-
-
     const [ideaForm, setIdeaForm] = useState({
         department: '',
         category: '',
@@ -35,12 +29,6 @@ const WriteIdea = () => {
         image: ''
 
     })
-
-
-
-
-
-
     const [anonymous, setAnonymous] = useState(false)
     const [termAgree, setTermAgree] = useState(false)
     const [disabled, setDisabled] = useState(true)

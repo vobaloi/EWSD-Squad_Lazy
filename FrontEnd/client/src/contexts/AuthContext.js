@@ -73,8 +73,20 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
+    const register = async (registerForm) => {
+        const response = await axios.post(`${apiUrl}/auth/register`, registerForm)
+        console.log("register response", response.data)
+        return response.data
+
+    }
+
+    const deleteUser = async (id) => {
+        const response = await axios.delete(`${apiUrl}/auth/user/` + id)
+        console.log('response delete: ', response)
+    }
+
     //context Data
-    const authContextData = { authState, loginUser, getAllUser }
+    const authContextData = { authState, loginUser, getAllUser, register, deleteUser }
 
     //return provider
     return (
