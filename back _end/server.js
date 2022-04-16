@@ -1,6 +1,11 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+// import dotenv from 'dotenv';
+
+// dotenv.config();
+
+// const URI = process.env.MONGODB_URL;
 
 const ErrorMiddelWare = require("./middleware/error")
 
