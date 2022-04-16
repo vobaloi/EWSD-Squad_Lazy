@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +25,8 @@
     "node-input-validator": "^4.4.1",
     "nodemon": "^2.0.15",
     "validator": "^13.7.0"
-  }
+  },
+  "engines": {
+    "node": "16.14.2"
+}
 }
