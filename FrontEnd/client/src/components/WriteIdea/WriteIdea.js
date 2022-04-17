@@ -64,17 +64,12 @@ const WriteIdea = () => {
         formData.append('image', ideaForm.image);
         if (!ideaForm.category) {
             alert("You need to select name of your category")
-        } else
-            if (!ideaForm.department) {
-                alert("You need to select name of your department")
-            } else if (ideaForm.file.substring(ideaForm.file.length - 3, ideaForm.file.length) === 'exe') {
-                alert("File is not accept")
-            } else if (!ideaForm.file) {
-                alert("You need to select a file")
-            } else {
-                addNewBlog(formData)
-                navigate('/home/view-ideas')
-            }
+        } else if (!ideaForm.department) {
+            alert("You need to select name of your department")
+        } else {
+            addNewBlog(formData)
+            navigate('/home/view-ideas')
+        }
     }
 
 

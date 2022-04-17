@@ -116,7 +116,7 @@ const ViewIdeas = () => {
                                 <Box display={"flex"} width={'30%'} justifyContent='space-between' >
                                     <Box alignItems={'center'} display={"flex"}>
                                         <IconButton onClick={() => changeValueThumpUp(oneblog._id)}>
-                                            {!stateThumUp ? <ThumbUpIcon fontSize='large' /> : <ThumbUpIcon fontSize='large' sx={{ color: 'blue' }} />}
+                                            <ThumbUpIcon fontSize='large' />
                                         </IconButton>
                                         {valueThum_Up < 0 ? <Typography>0</Typography> : <Typography>{oneblog.likes_count}</Typography>}
                                     </Box>
