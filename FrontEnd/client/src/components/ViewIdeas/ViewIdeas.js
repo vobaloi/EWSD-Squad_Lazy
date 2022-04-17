@@ -140,7 +140,6 @@ const ViewIdeas = () => {
                                     <Divider />
                                     <Typography ml={5} variant='h6'>Content: {data.comment}</Typography>
                                 </Box> : null
-
                         ))}
                         <Box display={openInput} mt={1}>
                             <Divider sx={{ mb: 1 }} />
@@ -151,7 +150,6 @@ const ViewIdeas = () => {
                                 onChange={onChangeComment}
                                 value={comment}
                             />
-
                             <Box display={"flex"} sx={{ mt: 1 }}>
                                 <Box>
                                     <Button sx={{ mr: 5 }} onClick={() => SubmitComment(oneblog._id)} variant='contained'>Submit</Button>

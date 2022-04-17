@@ -26,17 +26,19 @@ const WriteIdea = () => {
         department: '',
         category: '',
         content: '',
-        image: ''
+        image: '',
+        anonymous: false
 
     })
-    const [anonymous, setAnonymous] = useState(false)
+    // const [anonymous, setAnonymous] = useState(false)
     const [termAgree, setTermAgree] = useState(false)
     const [disabled, setDisabled] = useState(true)
-    const [error, setError] = useState(false)
 
-    const changeStateAnonymous = () => {
-        setAnonymous(!anonymous)
-    }
+    // const changeStateAnonymous = (event) => {
+    //     // setAnonymous(!anonymous)
+    //     console.log(!event.target.checked)
+    // }
+    console.log("anonymous", ideaForm.anonymous)
     const changeStateTerm = () => {
         setTermAgree(!termAgree)
         if (!termAgree) {
@@ -53,7 +55,9 @@ const WriteIdea = () => {
     const onChangeImageForm = (event) => {
         setIdeaForm({ ...ideaForm, image: event.target.files[0] })
     }
-
+    const onChangeCheckForm = (event) => {
+        setIdeaForm({ ...ideaForm, anonymous: event.target.checked })
+    }
 
 
     const DataSubmit = () => {
@@ -62,6 +66,8 @@ const WriteIdea = () => {
         formData.append('category', ideaForm.category);
         formData.append('content', ideaForm.content);
         formData.append('image', ideaForm.image);
+        formData.append('anonymous', ideaForm.anonymous);
+
         if (!ideaForm.category) {
             alert("You need to select name of your category")
         } else if (!ideaForm.department) {
@@ -71,6 +77,7 @@ const WriteIdea = () => {
             navigate('/home/view-ideas')
         }
     }
+
 
 
     const navigate = useNavigate()
@@ -144,7 +151,7 @@ const WriteIdea = () => {
                             <Checkbox checked={termAgree} onClick={() => changeStateTerm()} /> <Link to={'/'}> Terms Agree</Link>
                         </Box>
                         <Box display={"flex"} alignItems="center">
-                            <Checkbox checked={anonymous} onClick={() => changeStateAnonymous()} /> <Typography>Anonymous</Typography>
+                            <Checkbox checked={ideaForm.anonymous} onChange={onChangeCheckForm} /> <Typography>Anonymous</Typography>
                         </Box>
                     </Grid>
                     <Divider />
