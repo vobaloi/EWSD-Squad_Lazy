@@ -118,7 +118,7 @@ exports.list = async (req, res) => {
         createdAt: 1,
         content: 1,
         image: 1,
-        anonymous: 1,
+        // anonymous: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
         "category_details.name_category": 1,
@@ -277,7 +277,7 @@ exports.create = async (req, res) => {
   }
   const v = new Validator(req.body, {
     category: "required",
-    image: "required|mime:jpg.jpeg,png",
+    image: "mime:jpg.jpeg,png",
     department: "required",
     content: "required",
   });
