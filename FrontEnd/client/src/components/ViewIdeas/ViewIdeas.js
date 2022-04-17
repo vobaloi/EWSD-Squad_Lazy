@@ -33,8 +33,6 @@ const ViewIdeas = () => {
 
     const { CommentState: { Comments }, addNewComment, getCommentByBlogId, blog_like } = useContext(CommentContext)
 
-
-
     const changeValueThumpUp = async (id) => {
         const response = await blog_like(id)
         console.log("like", response)
@@ -84,7 +82,8 @@ const ViewIdeas = () => {
                         <Grid display={'flex'}  >
                             <Avatar />
                             <Grid display={'block'}  >
-                                <Typography variant='h6'>{oneblog.creator.username}</Typography>
+                                {oneblog.anonymous ? <Typography variant='h6'> Secret User</Typography> :
+                                    <Typography variant='h6'>{oneblog.creator.username}</Typography>}
                             </Grid>
                             <Grid marginLeft={'auto'} display={'flex'}>
                                 <Typography variant='h6' marginRight={5} >
