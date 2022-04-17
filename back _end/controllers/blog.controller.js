@@ -277,7 +277,7 @@ exports.create = async (req, res) => {
   }
   const v = new Validator(req.body, {
     category: "required",
-    image: "required|mime:jpg.jpeg,png",
+    image: "mime:jpg.jpeg,png",
     department: "required",
     content: "required",
   });
@@ -295,12 +295,13 @@ exports.create = async (req, res) => {
     }
 
     const newBlog = new Blog({
+      anonymous: req.body.anonymous,
       category: req.body.category,
       created_by: req.user._id,
       image: image_file_name,
       department: req.body.department,
       content: req.body.content,
-      anonymous: req.body.anonymous,
+      // anonymous: req.body.anonymous,
     });
     console.log("image:", image_file_name);
 
