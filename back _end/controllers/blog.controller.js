@@ -109,6 +109,7 @@ exports.list = async (req, res) => {
         createdAt: 1,
         content: 1,
         image: 1,
+        anonymous: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
         "category_details.name_category": 1,
@@ -280,6 +281,7 @@ exports.create = async (req, res) => {
       image: image_file_name,
       department: req.body.department,
       content: req.body.content,
+      anonymous: req.body.anonymous,
     });
     const created = req.user._id;
     console.log("created", created);
