@@ -13,7 +13,7 @@ const schema = new mongoose.Schema(
     blog_dislikes: [
       { type: mongoose.Schema.Types.ObjectId, ref: "BlogDislike" },
     ],
-    anonymous: boolean,
+    // anonymous: boolean,
   },
   {
     timestamps: true,
