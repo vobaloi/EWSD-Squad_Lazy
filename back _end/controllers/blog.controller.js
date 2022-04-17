@@ -118,7 +118,7 @@ exports.list = async (req, res) => {
         createdAt: 1,
         content: 1,
         image: 1,
-        blog_comments: 1,
+        anonymous: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
         "category_details.name_category": 1,
@@ -300,6 +300,7 @@ exports.create = async (req, res) => {
       image: image_file_name,
       department: req.body.department,
       content: req.body.content,
+      anonymous: req.body.anonymous,
     });
     console.log("image:", image_file_name);
 
