@@ -109,7 +109,7 @@ exports.list = async (req, res) => {
         createdAt: 1,
         content: 1,
         image: 1,
-        // anonymous: 1,
+        anonymous: 1,
         "department_details.name_department": 1,
         "department_details._id": 1,
         "category_details.name_category": 1,
@@ -276,6 +276,7 @@ exports.create = async (req, res) => {
     }
 
     const newBlog = new Blog({
+      anonymous: req.body.anonymous,
       category: req.body.category,
       created_by: req.user._id,
       image: image_file_name,
