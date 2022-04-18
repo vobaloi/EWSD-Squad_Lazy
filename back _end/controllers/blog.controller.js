@@ -555,6 +555,7 @@ exports.delete = async (req, res) => {
           message: "No blog found",
           data: {},
         });
+<<<<<<< HEAD
       }
       else {
         // let current_user = req.user;
@@ -575,7 +576,19 @@ exports.delete = async (req, res) => {
             message: "Blog successfully deleted",
             // data: {},
           });
+=======
+      } else {
+        let old_path = publicPath + "/uploads/blog_images/" + blog.image;
+        if (fs.existsSync(old_path)) {
+          fs.unlinkSync(old_path);
+>>>>>>> trongnhan
         }
+
+        await Blog.deleteOne({ _id: blog_id });
+        return res.status(200).send({
+          message: "Blog successfully deleted",
+          // data: {},
+        });
       }
     })
     .catch((err) => {
