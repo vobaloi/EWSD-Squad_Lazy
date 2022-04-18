@@ -63,6 +63,7 @@ exports.login = async (req, res) => {
           {
             data: userData,
           },
+
           jwt_secret,
           { expiresIn: "12h" }
         );
@@ -75,19 +76,16 @@ exports.login = async (req, res) => {
       } else {
         return res.status(400).send({
           message: "Incorrect credentials",
-
         });
       }
     } else {
       return res.status(400).send({
         message: "User is not registered",
-
       });
     }
   } catch (err) {
     return res.status(400).send({
       message: err.message,
-
     });
   }
 };
@@ -120,4 +118,17 @@ exports.deleteUser = async (req, res) => {
     success: true,
     message: "User Deleted successfully",
   });
+};
+exports.getToken = async function (req, res) {
+  try {
+    const user = await user.findById(data._id);
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };
