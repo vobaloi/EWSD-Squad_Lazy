@@ -17,7 +17,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { mainNavbarItems } from "./const/navbarItems";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useParams, useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import MyBreadcrumbs from "./Breadcrumbs/MyBreadcrumbs";
 import { TextField } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -26,8 +26,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { makeStyles } from "@material-ui/core";
 
+import { LOCAL_STORAGE_TOKEN_NAME } from "../../contexts/constants";
+
 //context
 import { AuthContext } from '../../contexts/AuthContext';
+import { Logout } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -108,10 +111,11 @@ export default function Navbar() {
   const [open, setOpen] = React.useState(false);
 
 
-  const { authState: { user, authLoading } } = useContext(AuthContext)
-  // React.useEffect(() => loadUser(), [])
-  console.log("user", user)
-  const [role, setRole] = useState(user.role)
+  const { authState: { user, authLoading }, loadUser } = useContext(AuthContext)
+  React.useEffect(() => loadUser(), [])
+  //const [role, setRole] = useState(user.role)
+
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -119,6 +123,10 @@ export default function Navbar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const logout = async () => {
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+    navigate('/')
+  }
 
   const classes = useStyles();
   return (
@@ -207,8 +215,8 @@ export default function Navbar() {
         <Divider />
         <List>
 
-          {role && mainNavbarItems.map((item, index) => (
-            role === item.roles[0] || role === item.roles[1] || role === item.roles[2] || role === item.roles[3] ?
+          {user.role && mainNavbarItems.map((item, index) => (
+            user.role === item.roles[0] || user.role === item.roles[1] || user.role === item.roles[2] || user.role === item.roles[3] ?
               <ListItem button key={item.id} onClick={() => navigate(item.route)}>
                 <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>
                   {item.icon}
@@ -220,7 +228,7 @@ export default function Navbar() {
         </List>
         <ListItem
           button
-          onClick={() => navigate("/")}
+          onClick={() => logout()}
           sx={{ marginTop: -1 }}
         >
           <ListItemIcon sx={{ color: "rgb(217, 217, 217)" }}>

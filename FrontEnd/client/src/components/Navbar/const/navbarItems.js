@@ -41,28 +41,28 @@ export const mainNavbarItems = [
         icon: <PersonIcon />,
         label: 'Management Users',
         route: 'management-users',
-        roles: ["Admin", "QA"]
+        roles: ["Admin"]
     },
     {
         id: 5,
         icon: <TipsAndUpdatesIcon />,
         label: 'Management Ideas',
         route: 'management-ideas',
-        roles: ["Admin", "Coordinator"]
+        roles: ["QA", "Coordinator"]
     },
     {
         id: 6,
         icon: <SettingsIcon />,
         label: 'Department',
         route: 'departments',
-        roles: ["Admin", "QA"]
+        roles: ["QA"]
     },
     {
         id: 7,
         icon: <SettingsIcon />,
         label: 'Categories',
         route: 'categories',
-        roles: ["Admin", "QA", "Coordinator"]
+        roles: ["QA", "Coordinator"]
     },
     // {
     //     id: 8,

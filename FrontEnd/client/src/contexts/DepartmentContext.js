@@ -11,7 +11,7 @@ const DepartmentContextProvider = ({ children }) => {
     const [departSate, dispatch] = useReducer(departmentReducer, {
         departments: [],
         one_department: '',
-        departmentsLoading: false,
+        departmentsLoading: true,
 
     })
 

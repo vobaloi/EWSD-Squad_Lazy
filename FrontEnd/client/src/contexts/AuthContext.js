@@ -3,6 +3,7 @@ import { authReducer } from "../reducers/authReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
 import setAuthToken from "../utils/setAuthToken";
 import axios from "axios";
+import * as React from 'react'
 
 
 export const AuthContext = createContext()
@@ -11,11 +12,32 @@ const AuthContextProvider = ({ children }) => {
     const [authState, dispatch] = useReducer(authReducer, {
         authLoading: true,
         isAuthenticated: false,
-        user: null,
-        role: null,
+        user: '',
+        role: '',
         Users: [],
         accessToken: ''
     })
+
+    const loadUser = async () => {
+        if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
+            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+        }
+        try {
+            const response = await axios.get(`${apiUrl}/auth`)
+            dispatch({
+                type: 'SET_AUTH',
+                payload: { user: response.data.userToken.username, role: response.data.userToken.role }
+            })
+        } catch (error) {
+            localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+            setAuthToken(null)
+            dispatch({
+                type: 'SET_AUTH',
+                payload: { isAuthenticated: false, user: null }
+            })
+        }
+    }
+    React.useEffect(() => loadUser(), [])
 
     //login
     const loginUser = async userForm => {
@@ -31,6 +53,7 @@ const AuthContextProvider = ({ children }) => {
                     payload: { user: response.data.data.email, role: response.data.data.role }
                 })
             }
+            await loadUser()
             return response.data
         } catch (error) {
             if (error.response.data)
@@ -39,24 +62,7 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
-    // const loadUser = async () => {
-    //     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
-    //         setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
-    //     }
-    //     try {
-    //         const response = await axios.get(`${apiUrl}/auth/users`)
-    //         console.log("load user response", response.data.users.email)
 
-    //     } catch (error) {
-    //         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
-    //         setAuthToken(null)
-    //         dispatch({
-    //             type: 'SET_AUTH',
-    //             payload: { isAuthenticated: false, user: null }
-    //         })
-    //     }
-
-    // }
 
     const getAllUser = async () => {
         try {
@@ -69,7 +75,6 @@ const AuthContextProvider = ({ children }) => {
                 dispatch({ type: 'USERS_LOAD_FAIL' })
             }
         } catch (error) {
-
         }
     }
 
@@ -86,7 +91,7 @@ const AuthContextProvider = ({ children }) => {
     }
 
     //context Data
-    const authContextData = { authState, loginUser, getAllUser, register, deleteUser }
+    const authContextData = { authState, loginUser, getAllUser, register, deleteUser, loadUser }
 
     //return provider
     return (

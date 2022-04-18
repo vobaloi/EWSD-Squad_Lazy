@@ -17,7 +17,9 @@ exports.authorizeRoles = (...roles) => {
 };
 exports.verifyToken = async (req, res, next) => {
   const authHeader = req.header("Authorization");
+
   const token = authHeader && authHeader.split(" ")[1];
+
   let jwt_secret = process.env.JWT_SECRET || "mysecret";
 
   if (!token)
@@ -28,10 +30,10 @@ exports.verifyToken = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, jwt_secret);
 
-    req.userId = decoded.userId;
+
+    req.data = decoded.data._id;
     next();
   } catch (error) {
-    console.log(error);
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 };

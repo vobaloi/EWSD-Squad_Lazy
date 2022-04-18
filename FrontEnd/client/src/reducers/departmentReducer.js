@@ -23,7 +23,7 @@ export const departmentReducer = (state, action) => {
             return {
                 ...state,
                 one_department: payload,
-
+                departmentsLoading: false
             }
         case 'GET_DEPARTMENT_FAIL':
             return {

@@ -121,14 +121,16 @@ exports.deleteUser = async (req, res) => {
 };
 exports.getToken = async function (req, res) {
   try {
-    const user = await user.findById(data._id);
-    if (!user)
+    const userToken = await user.findById(req.data);
+    console.log('idufdsfsdfsser', userToken)
+    if (!userToken)
       return res
         .status(400)
         .json({ success: false, message: "User not found" });
-    res.json({ success: true, user });
+    res.json({ success: true, userToken });
   } catch (error) {
-    console.log(error);
+    console.log('error gettoken', error);
+
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

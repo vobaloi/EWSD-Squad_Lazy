@@ -46,9 +46,6 @@ function Login() {
     password: "",
   });
 
-  const { authState: { user } } = useContext(AuthContext)
-  // React.useEffect(() => loadUser(), [])
-  console.log("user", user)
 
   const { email, password } = loginForm;
 
@@ -59,12 +56,13 @@ function Login() {
     event.preventDefault();
     try {
       const LoginData = await loginUser(loginForm);
-      console.log('data login', LoginData)
-      if (LoginData.data.role !== "Staff") {
-        return navigate('/home/dashboard')
-      }
-      else if (LoginData.data.role === "Staff") {
-        return navigate('/home/view-ideas')
+      if (LoginData.data) {
+        if (LoginData.data.role !== "Staff") {
+          return navigate('/home/dashboard')
+        }
+        else if (LoginData.data.role === "Staff") {
+          return navigate('/home/view-ideas')
+        }
       }
       else {
         return alert('Email or password incorrect!')
